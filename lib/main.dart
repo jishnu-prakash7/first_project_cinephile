@@ -2,7 +2,7 @@
 
 import 'package:firstprojectcinephile/models/movies.dart';
 import 'package:firstprojectcinephile/models/user.dart';
-import 'package:firstprojectcinephile/screens/splashscreen.dart';
+import 'package:firstprojectcinephile/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';

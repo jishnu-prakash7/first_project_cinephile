@@ -18,7 +18,7 @@ class movies extends HiveObject{
   @HiveField(4)
   final String moviedirector;
   @HiveField(5)
-  final dynamic movierating;
+  final double movierating;
   @HiveField(6)
   final String moviegenre;
   @HiveField(7)

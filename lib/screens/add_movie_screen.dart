@@ -1,10 +1,13 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, camel_case_types, use_key_in_widget_constructors
+// , prefer_const_literals_to_create_immutables, camel_case_types, use_key_in_widget_constructors
+
+// ignore_for_file: camel_case_types, use_key_in_widget_constructors
 
 import 'dart:io';
 
 import 'package:firstprojectcinephile/models/movies.dart';
-import 'package:firstprojectcinephile/screens/adminModule.dart';
-import 'package:firstprojectcinephile/widgets/addAndEditMovie.dart';
+import 'package:firstprojectcinephile/screens/admin_module.dart';
+import 'package:firstprojectcinephile/widgets/add_and_edit_movie.dart';
+import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -40,21 +43,6 @@ class _addMovieScreenState extends State<addMovieScreen> {
     super.dispose();
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2101),
-    );
-
-    if (picked != null && picked != DateTime.now()) {
-      setState(() {
-        dateController.text = DateFormat('dd-MM-yyyy').format(picked);
-      });
-    }
-  }
-
   late Box moviesBox;
 
   @override
@@ -63,31 +51,14 @@ class _addMovieScreenState extends State<addMovieScreen> {
     moviesBox = Hive.box('movies');
   }
 
-  Future<XFile?> _pickImageFromCamera() async {
-    final pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
-      return XFile(pickedImage.path);
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.black,
-        title: Text(
-          'Add Movie',
-          style: GoogleFonts.ubuntu(
-              textStyle: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.green)),
-        ),
-      ),
+          elevation: 0,
+          backgroundColor: Colors.black,
+          title: appbarHeading('Add Movie', 25)),
       body: SingleChildScrollView(
         child: Form(
             key: _formKey,
@@ -106,7 +77,7 @@ class _addMovieScreenState extends State<addMovieScreen> {
                       ),
                       child: GestureDetector(
                         onTap: () async {
-                          XFile? pickimage = await _pickImageFromCamera();
+                          XFile? pickimage = await PickImageFormgallery();
                           setState(() {
                             _selectedImage = pickimage;
                           });
@@ -119,7 +90,8 @@ class _addMovieScreenState extends State<addMovieScreen> {
                                   fit: BoxFit.cover,
                                 ),
                               )
-                            : Icon(Icons.add_a_photo, color: Colors.white),
+                            : const Icon(Icons.add_a_photo,
+                                color: Colors.white),
                       )),
                   addAndEditMovieTitile('Movie Title'),
                   addAndEditMovieTextField('Enter title', titleController,
@@ -133,7 +105,7 @@ class _addMovieScreenState extends State<addMovieScreen> {
                           addAndEditMovieTitile('Release Date'),
                           Container(
                             width: 170,
-                            decoration: BoxDecoration(),
+                            decoration: const BoxDecoration(),
                             child: Column(
                               children: [
                                 TextFormField(
@@ -151,23 +123,25 @@ class _addMovieScreenState extends State<addMovieScreen> {
                                     }
                                   },
                                   controller: dateController,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 15, color: Colors.white),
                                   decoration: InputDecoration(
                                       fillColor:
-                                          Color.fromARGB(255, 39, 38, 38),
+                                          const Color.fromARGB(255, 39, 38, 38),
                                       filled: true,
-                                      contentPadding: EdgeInsets.only(left: 13),
+                                      contentPadding:
+                                          const EdgeInsets.only(left: 13),
                                       hintText: 'Select Date',
-                                      hintStyle: TextStyle(color: Colors.white),
+                                      hintStyle:
+                                          const TextStyle(color: Colors.white),
                                       border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(30),
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                               color: Colors.grey, width: 2)),
                                       focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(30),
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                             color: Colors.black, width: 1.5),
                                       )),
                                 ),
@@ -230,7 +204,7 @@ class _addMovieScreenState extends State<addMovieScreen> {
                             allowHalfRating: true,
                             itemCount: 5,
                             itemSize: 20,
-                            itemBuilder: (context, _) => Icon(
+                            itemBuilder: (context, _) => const Icon(
                               Icons.star,
                               color: Colors.amber,
                             ),
@@ -257,7 +231,7 @@ class _addMovieScreenState extends State<addMovieScreen> {
                   ),
                   addAndEditMovieTitile('Review'),
                   TextFormField(
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                     keyboardType: TextInputType.multiline,
                     controller: reviewcontroller,
                     maxLines: null,
@@ -269,18 +243,18 @@ class _addMovieScreenState extends State<addMovieScreen> {
                       }
                     },
                     decoration: InputDecoration(
-                        fillColor: Color.fromARGB(255, 39, 38, 38),
+                        fillColor: const Color.fromARGB(255, 39, 38, 38),
                         filled: true,
                         hintText: 'Write review...',
-                        hintStyle: TextStyle(color: Colors.white),
+                        hintStyle: const TextStyle(color: Colors.white),
                         focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Colors.grey,
                               width: 1.5,
                             ),
                             borderRadius: BorderRadius.circular(30)),
                         border: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                                 color: Color.fromARGB(255, 189, 188, 188)),
                             borderRadius: BorderRadius.circular(30))),
                   ),
@@ -292,7 +266,7 @@ class _addMovieScreenState extends State<addMovieScreen> {
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.green,
-                                fixedSize: Size(160, 40),
+                                fixedSize: const Size(160, 40),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30))),
                             onPressed: () {
@@ -301,7 +275,7 @@ class _addMovieScreenState extends State<addMovieScreen> {
                             child: Text(
                               'Submit',
                               style: GoogleFonts.ubuntu(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 18,
                                       color: Colors.black)),
@@ -321,7 +295,7 @@ class _addMovieScreenState extends State<addMovieScreen> {
     if (isValid!) {
       if (_selectedImage == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             backgroundColor: Colors.red,
             content: Text(
               "You must select an Image",
@@ -334,7 +308,7 @@ class _addMovieScreenState extends State<addMovieScreen> {
         return;
       } else if (movieRating == 0) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             backgroundColor: Colors.red,
             content: Text(
               "You must select Rating",
@@ -371,10 +345,25 @@ class _addMovieScreenState extends State<addMovieScreen> {
 
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) {
-          return AdminModule();
+          return const AdminModule();
         }), (route) => false);
-        // showSnackBar(context, 'Movie Added Succesfully', Colors.teal);
+        showSnackBar(context, 'Movie Added Succesfully', Colors.teal);
       }
+    }
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2101),
+    );
+
+    if (picked != null && picked != DateTime.now()) {
+      setState(() {
+        dateController.text = DateFormat('dd-MM-yyyy').format(picked);
+      });
     }
   }
 }

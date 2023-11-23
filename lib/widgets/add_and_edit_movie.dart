@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,7 +10,7 @@ Widget addAndEditMovieTitile(String name) {
     child: Text(
       name,
       style: GoogleFonts.ubuntu(
-          textStyle: TextStyle(
+          textStyle: const TextStyle(
               color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500)),
     ),
   );
@@ -28,10 +27,11 @@ Widget addAndEditMovieTextField(
 ) {
   return Container(
     width: 170,
-    decoration: BoxDecoration(),
+    decoration: const BoxDecoration(),
     child: Column(
       children: [
         TextFormField(
+          maxLines: null,
           keyboardType: keyboardtype,
           validator: (value) {
             if (value!.isEmpty) {
@@ -41,20 +41,20 @@ Widget addAndEditMovieTextField(
             }
           },
           controller: controller,
-          style: TextStyle(fontSize: 15, color: Colors.white),
+          style: const TextStyle(fontSize: 15, color: Colors.white),
           decoration: InputDecoration(
-              fillColor: Color.fromARGB(255, 39, 38, 38),
+              fillColor: const Color.fromARGB(255, 39, 38, 38),
               filled: true,
-              contentPadding: EdgeInsets.only(left: 20),
+              contentPadding: const EdgeInsets.only(left: 20),
               hintText: hintText,
-              hintStyle: TextStyle(color: Colors.white),
+              hintStyle: const TextStyle(color: Colors.white),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
-                  borderSide: BorderSide(color: Colors.grey, width: 2)),
+                  borderSide: const BorderSide(color: Colors.grey, width: 2)),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
-                borderSide: BorderSide(
-                    color: const Color.fromARGB(255, 247, 247, 247),
+                borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 247, 247, 247),
                     ),
               )),
         ),

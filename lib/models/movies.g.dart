@@ -22,7 +22,7 @@ class moviesAdapter extends TypeAdapter<movies> {
       movielanguage: fields[2] as String,
       time: fields[3] as int,
       moviedirector: fields[4] as String,
-      movierating: fields[5] as dynamic,
+      movierating: fields[5] as double,
       moviegenre: fields[6] as String,
       review: fields[7] as String,
       imageUrl: fields[8] as String,

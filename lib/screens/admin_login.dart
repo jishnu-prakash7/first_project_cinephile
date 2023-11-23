@@ -1,9 +1,9 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:firstprojectcinephile/screens/adminModule.dart';
-import 'package:firstprojectcinephile/screens/userLoginScreen.dart';
-import 'package:firstprojectcinephile/widgets/loginAndSignup.dart';
-import 'package:firstprojectcinephile/widgets/mainRefactoring.dart';
+
+import 'package:firstprojectcinephile/screens/admin_module.dart';
+import 'package:firstprojectcinephile/screens/user_login_screen.dart';
+import 'package:firstprojectcinephile/widgets/login_and_signup.dart';
+import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -28,11 +28,11 @@ class AdminLogin extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 100,
             ),
             Container(
-                margin: EdgeInsets.only(left: 60, right: 60),
+                margin: const EdgeInsets.only(left: 60, right: 60),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.white,
@@ -48,7 +48,7 @@ class AdminLogin extends StatelessWidget {
                           Text(
                             'Admin',
                             style: GoogleFonts.ubuntu(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     fontSize: 35, fontWeight: FontWeight.w800)),
                           ),
                         ],
@@ -83,8 +83,8 @@ class AdminLogin extends StatelessWidget {
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    Color.fromARGB(255, 21, 21, 21),
-                                fixedSize: Size(200, 40),
+                                    const Color.fromARGB(255, 21, 21, 21),
+                                fixedSize: const Size(200, 40),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20))),
                             onPressed: () {
@@ -95,7 +95,7 @@ class AdminLogin extends StatelessWidget {
                                 if (name == 'jishnu' && password == '123') {
                                   Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(builder: (context) {
-                                    return AdminModule();
+                                    return const AdminModule();
                                   }));
                                 }
                               }
@@ -103,7 +103,7 @@ class AdminLogin extends StatelessWidget {
                             child: Text(
                               'Login',
                               style: GoogleFonts.ubuntu(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 18,
                                       color: Colors.white)),
@@ -120,8 +120,8 @@ class AdminLogin extends StatelessWidget {
                           },
                           child: Text('User ?',
                               style: GoogleFonts.ubuntu(
-                                  textStyle: TextStyle(fontSize: 16),
-                                  color: Color.fromARGB(255, 245, 63, 8))),
+                                  textStyle: const TextStyle(fontSize: 16),
+                                  color: const Color.fromARGB(255, 245, 63, 8))),
                         ),
                       )
                     ]),

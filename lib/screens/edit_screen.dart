@@ -1,10 +1,9 @@
-// ignore_for_file: prefer_const_constructors, prefer_typing_uninitialized_variables, unnecessary_null_comparison
-
 import 'dart:io';
 
 import 'package:firstprojectcinephile/models/movies.dart';
-import 'package:firstprojectcinephile/screens/adminModule.dart';
-import 'package:firstprojectcinephile/widgets/addAndEditMovie.dart';
+import 'package:firstprojectcinephile/screens/admin_module.dart';
+import 'package:firstprojectcinephile/widgets/add_and_edit_movie.dart';
+import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,12 +27,11 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
   late TextEditingController languageController;
   late TextEditingController timeController;
   late TextEditingController directorController;
-  late TextEditingController ratingcontroller;
   late TextEditingController genreController;
   late TextEditingController reviewcontroller;
 
   XFile? _selectedImage;
-  dynamic movieRating = 0.0;
+  double movieRating = 0.0;
   late TextEditingController dateController;
   final dateFocusNode = FocusNode();
 
@@ -70,8 +68,6 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
     timeController = TextEditingController(text: widget.movie.time.toString());
     directorController =
         TextEditingController(text: widget.movie.moviedirector);
-    ratingcontroller =
-        TextEditingController(text: widget.movie.movierating.toString());
     genreController = TextEditingController(text: widget.movie.moviegenre);
     reviewcontroller = TextEditingController(text: widget.movie.review);
     _selectedImage = XFile(widget.movie.imageUrl);
@@ -100,18 +96,11 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
             onPressed: () {
               Navigator.of(context)
                   .pushReplacement(MaterialPageRoute(builder: (context) {
-                return AdminModule();
+                return const AdminModule();
               }));
             },
-            icon: Icon(Icons.arrow_back_ios)),
-        title: Text(
-          'Edit Movie',
-          style: GoogleFonts.ubuntu(
-              textStyle: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.green)),
-        ),
+            icon: const Icon(Icons.arrow_back_ios)),
+        title:appbarHeading('Edit Movie',25)
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -164,7 +153,7 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
                           addAndEditMovieTitile('Release Date'),
                           Container(
                             width: 170,
-                            decoration: BoxDecoration(),
+                            decoration: const BoxDecoration(),
                             child: Column(
                               children: [
                                 TextFormField(
@@ -182,22 +171,23 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
                                     }
                                   },
                                   controller: dateController,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 15, color: Colors.white),
                                   decoration: InputDecoration(
                                       fillColor:
-                                          Color.fromARGB(255, 39, 38, 38),
+                                          const Color.fromARGB(255, 39, 38, 38),
                                       filled: true,
-                                      contentPadding: EdgeInsets.only(left: 20),
+                                      contentPadding:
+                                          const EdgeInsets.only(left: 20),
                                       hintText: 'Select Date',
                                       border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(30),
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                               color: Colors.grey, width: 2)),
                                       focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(30),
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                             color: Colors.black, width: 1.5),
                                       )),
                                 ),
@@ -260,7 +250,7 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
                             allowHalfRating: true,
                             itemCount: 5,
                             itemSize: 20,
-                            itemBuilder: (context, _) => Icon(
+                            itemBuilder: (context, _) => const Icon(
                               Icons.star,
                               color: Colors.amber,
                             ),
@@ -297,19 +287,19 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
                         return null;
                       }
                     },
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
-                        fillColor: Color.fromARGB(255, 39, 38, 38),
+                        fillColor: const Color.fromARGB(255, 39, 38, 38),
                         filled: true,
                         hintText: 'Write review...',
                         focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Colors.grey,
                               width: 1.5,
                             ),
                             borderRadius: BorderRadius.circular(30)),
                         border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
+                            borderSide: const BorderSide(color: Colors.white),
                             borderRadius: BorderRadius.circular(30))),
                   ),
                   Padding(
@@ -320,7 +310,7 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.green,
-                                fixedSize: Size(150, 40),
+                                fixedSize: const Size(150, 40),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30))),
                             onPressed: () {
@@ -329,7 +319,7 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
                             child: Text(
                               'Submit',
                               style: GoogleFonts.ubuntu(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 18,
                                       color: Colors.black)),
@@ -348,8 +338,8 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
     final isValid = _formKey.currentState?.validate();
     if (isValid!) {
       if (_selectedImage == null) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('you must select an Image')));
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('you must select an Image')));
       } else {
         final value = movies(
             title: titleController.text,
@@ -357,7 +347,7 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
             movielanguage: languageController.text,
             time: int.parse(timeController.text),
             moviedirector: directorController.text,
-            movierating: double.tryParse(ratingcontroller.text) ?? 0.0,
+            movierating: movieRating,
             moviegenre: genreController.text,
             review: reviewcontroller.text,
             imageUrl: _selectedImage!.path);
@@ -366,9 +356,9 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
 
         Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (context) {
-          return AdminModule();
+          return const AdminModule();
         }));
-        // showSnackBar(context, 'Movie Edited Succesfully', Colors.teal);
+        showSnackBar(context, 'Movie Edited Succesfully', Colors.teal);
       }
     }
   }

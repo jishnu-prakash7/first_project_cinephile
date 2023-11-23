@@ -1,9 +1,7 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:firstprojectcinephile/models/user.dart';
-import 'package:firstprojectcinephile/screens/userLoginScreen.dart';
-import 'package:firstprojectcinephile/widgets/loginAndSignup.dart';
-import 'package:firstprojectcinephile/widgets/mainRefactoring.dart';
+import 'package:firstprojectcinephile/screens/user_login_screen.dart';
+import 'package:firstprojectcinephile/widgets/login_and_signup.dart';
+import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -55,9 +53,9 @@ class _SignupState extends State<Signup> {
                 height: MediaQuery.sizeOf(context).height * 0.1,
               ),
               Container(
-                  margin: EdgeInsets.only(left: 50, right: 50),
+                  margin: const EdgeInsets.only(left: 50, right: 50),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(20),
                     color: Colors.white,
                   ),
                   child: Padding(
@@ -71,7 +69,7 @@ class _SignupState extends State<Signup> {
                             Text(
                               'Signup',
                               style: GoogleFonts.ubuntu(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                       fontSize: 35,
                                       fontWeight: FontWeight.w800)),
                             ),
@@ -108,7 +106,7 @@ class _SignupState extends State<Signup> {
                                 TextInputType.number,
                                 true,
                                 Icons.lock,
-                                'Password contain atleast 3 charecters',
+                                'Password contain Atleast 3 Charecters',
                                 _passwordRegex),
                           ],
                         ),
@@ -117,8 +115,8 @@ class _SignupState extends State<Signup> {
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                   backgroundColor:
-                                      Color.fromARGB(255, 21, 21, 21),
-                                  fixedSize: Size(200, 40),
+                                      const Color.fromARGB(255, 21, 21, 21),
+                                  fixedSize: const Size(200, 40),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20))),
                               onPressed: () {
@@ -132,14 +130,14 @@ class _SignupState extends State<Signup> {
                                           int.parse(passwordcontroller.text)));
                                   Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(builder: (context) {
-                                    return UserLogin();
+                                    return const UserLogin();
                                   }));
                                 }
                               },
                               child: Text(
                                 'signup',
                                 style: GoogleFonts.ubuntu(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 18,
                                         color: Colors.white)),
@@ -152,7 +150,7 @@ class _SignupState extends State<Signup> {
                               TextSpan(
                                 text: 'Already have an Account? ',
                                 style: GoogleFonts.ubuntu(
-                                    textStyle: TextStyle(fontSize: 16),
+                                    textStyle: const TextStyle(fontSize: 16),
                                     color: Colors.black),
                               ),
                               TextSpan(
@@ -161,12 +159,13 @@ class _SignupState extends State<Signup> {
                                   ..onTap = () {
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(builder: (context) {
-                                      return UserLogin();
+                                      return const UserLogin();
                                     }));
                                   },
                                 style: GoogleFonts.ubuntu(
-                                    textStyle: TextStyle(fontSize: 16),
-                                    color: Color.fromARGB(255, 36, 171, 33)),
+                                    textStyle: const TextStyle(fontSize: 16),
+                                    color:
+                                        const Color.fromARGB(255, 36, 171, 33)),
                               ),
                             ]))),
                       ]),

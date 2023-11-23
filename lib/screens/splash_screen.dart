@@ -1,9 +1,9 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously, no_leading_underscores_for_local_identifiers
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:firstprojectcinephile/main.dart';
-import 'package:firstprojectcinephile/screens/homeScreen.dart';
-import 'package:firstprojectcinephile/screens/userLoginScreen.dart';
-import 'package:firstprojectcinephile/widgets/mainRefactoring.dart';
+import 'package:firstprojectcinephile/screens/home_screen.dart';
+import 'package:firstprojectcinephile/screens/user_login_screen.dart';
+import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,16 +37,16 @@ class _SplashState extends State<Splash> {
   }
 
   Future<void> gotologin() async {
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 3));
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-      return UserLogin();
+      return const UserLogin();
     }));
   }
 
   Future<void> checkUserLoggedIn() async {
-    final _sharedprefs = await SharedPreferences.getInstance();
-    final _userLoggedIn = _sharedprefs.getBool(KEY);
-    if (_userLoggedIn == null || _userLoggedIn == false) {
+    final sharedprefs = await SharedPreferences.getInstance();
+    final userLoggedIn = sharedprefs.getBool(KEY);
+    if (userLoggedIn == null || userLoggedIn == false) {
       gotologin();
     } else {
       Navigator.of(context).pushReplacement(

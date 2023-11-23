@@ -1,13 +1,12 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, no_leading_underscores_for_local_identifiers, use_build_context_synchronously
-
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:firstprojectcinephile/main.dart';
 import 'package:firstprojectcinephile/models/user.dart';
-import 'package:firstprojectcinephile/screens/adminLogin.dart';
-import 'package:firstprojectcinephile/screens/homeScreen.dart';
-import 'package:firstprojectcinephile/screens/signupScreen.dart';
-import 'package:firstprojectcinephile/widgets/loginAndSignup.dart';
-import 'package:firstprojectcinephile/widgets/mainRefactoring.dart';
+import 'package:firstprojectcinephile/screens/admin_login.dart';
+import 'package:firstprojectcinephile/screens/home_screen.dart';
+import 'package:firstprojectcinephile/screens/signup_screen.dart';
+import 'package:firstprojectcinephile/widgets/login_and_signup.dart';
+import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,7 +14,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserLogin extends StatefulWidget {
-  UserLogin({super.key});
+  const UserLogin({super.key});
 
   @override
   State<UserLogin> createState() => _UserLoginState();
@@ -31,7 +30,7 @@ class _UserLoginState extends State<UserLogin> {
   int flag = 0;
 
   late Box userBox;
-
+  int? index;
   RegExp get _emailRegex => RegExp(r'^\S+@\S+$');
   RegExp get _passwordRegex => RegExp(r'^(?=.*[0-9].*[0-9].*[0-9])[0-9]+$');
 
@@ -40,6 +39,8 @@ class _UserLoginState extends State<UserLogin> {
     super.initState();
     userBox = Hive.box('user');
   }
+
+ int? loggedInUserIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +61,9 @@ class _UserLoginState extends State<UserLogin> {
                 height: MediaQuery.sizeOf(context).height * 0.13,
               ),
               Container(
-                margin: EdgeInsets.only(left: 50, right: 50),
+                margin: const EdgeInsets.only(left: 50, right: 50),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(20),
                   color: Colors.white,
                 ),
                 child: Padding(
@@ -77,7 +78,7 @@ class _UserLoginState extends State<UserLogin> {
                             Text(
                               'Login',
                               style: GoogleFonts.ubuntu(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                       fontSize: 35,
                                       fontWeight: FontWeight.w800)),
                             ),
@@ -113,8 +114,8 @@ class _UserLoginState extends State<UserLogin> {
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                   backgroundColor:
-                                      Color.fromARGB(255, 21, 21, 21),
-                                  fixedSize: Size(200, 40),
+                                      const Color.fromARGB(255, 21, 21, 21),
+                                  fixedSize: const Size(200, 40),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20))),
                               onPressed: () async {
@@ -123,11 +124,13 @@ class _UserLoginState extends State<UserLogin> {
                                 if (isvalid!) {
                                   final email = emailcontroller.text;
                                   final password = passwordcontroller.text;
+
                                   for (var i = 0; i < userBox.length; i++) {
                                     final storedUser = userBox.getAt(i) as User;
                                     if (storedUser.email == email &&
                                         storedUser.password ==
                                             int.parse(password)) {
+                                       loggedInUserIndex = i;
                                       checkLogin(context);
                                       flag = 0;
                                       break;
@@ -148,7 +151,7 @@ class _UserLoginState extends State<UserLogin> {
                               child: Text(
                                 'login',
                                 style: GoogleFonts.ubuntu(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 18,
                                         color: Colors.white)),
@@ -161,7 +164,7 @@ class _UserLoginState extends State<UserLogin> {
                               TextSpan(
                                 text: 'Dont have an Account?',
                                 style: GoogleFonts.ubuntu(
-                                    textStyle: TextStyle(fontSize: 16),
+                                    textStyle: const TextStyle(fontSize: 16),
                                     color: Colors.black),
                               ),
                               TextSpan(
@@ -170,12 +173,13 @@ class _UserLoginState extends State<UserLogin> {
                                   ..onTap = () {
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(builder: (context) {
-                                      return Signup();
+                                      return const Signup();
                                     }));
                                   },
                                 style: GoogleFonts.ubuntu(
-                                    textStyle: TextStyle(fontSize: 16),
-                                    color: Color.fromARGB(255, 14, 145, 44)),
+                                    textStyle: const TextStyle(fontSize: 16),
+                                    color:
+                                        const Color.fromARGB(255, 14, 145, 44)),
                               ),
                             ]))),
                         GestureDetector(
@@ -187,8 +191,9 @@ class _UserLoginState extends State<UserLogin> {
                           },
                           child: Text('Admin ?',
                               style: GoogleFonts.ubuntu(
-                                  textStyle: TextStyle(fontSize: 16),
-                                  color: Color.fromARGB(255, 245, 63, 8))),
+                                  textStyle: const TextStyle(fontSize: 16),
+                                  color:
+                                      const Color.fromARGB(255, 245, 63, 8))),
                         )
                       ],
                     ),
@@ -203,10 +208,13 @@ class _UserLoginState extends State<UserLogin> {
   }
 
   void checkLogin(BuildContext ctx) async {
-    final _sharedprefs = await SharedPreferences.getInstance();
-    await _sharedprefs.setBool(KEY, true);
+    final sharedprefs = await SharedPreferences.getInstance();
+    await sharedprefs.setBool(KEY, true);
+
+    await sharedprefs.setInt('loggedInUserIndexKey',loggedInUserIndex!);
+
     Navigator.of(ctx).pushReplacement(MaterialPageRoute(builder: (context) {
-      return HomeScreen();
+      return const HomeScreen();
     }));
   }
 }

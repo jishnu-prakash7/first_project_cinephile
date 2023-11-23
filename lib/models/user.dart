@@ -11,6 +11,12 @@ class User extends HiveObject {
   final String email;
   @HiveField(2)
   final int password;
+  @HiveField(3)
+  final String? image;
 
-  User({required this.userName, required this.email, required this.password});
+  User(
+      {required this.userName,
+      required this.email,
+      required this.password,
+      this.image});
 }

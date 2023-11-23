@@ -1,12 +1,13 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: use_build_context_synchronously
 
 import 'dart:io';
 
 import 'package:firstprojectcinephile/models/movies.dart';
-import 'package:firstprojectcinephile/screens/addMovieScreen.dart';
-import 'package:firstprojectcinephile/screens/editAndDeleteScreen.dart';
-import 'package:firstprojectcinephile/screens/userLoginScreen.dart';
-import 'package:firstprojectcinephile/widgets/mainRefactoring.dart';
+import 'package:firstprojectcinephile/screens/add_movie_screen.dart';
+import 'package:firstprojectcinephile/screens/edit_screen.dart';
+import 'package:firstprojectcinephile/screens/user_login_screen.dart';
+import 'package:firstprojectcinephile/widgets/admin_panel_ref.dart';
+import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -33,24 +34,20 @@ class _AdminModuleState extends State<AdminModule> {
     return Scaffold(
         backgroundColor: Colors.black,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(70),
+          preferredSize: const Size.fromHeight(70),
           child: AppBar(
             backgroundColor: Colors.black,
-            title: Text(
-              'Admin Panel',
-              style: GoogleFonts.ubuntu(
-                  textStyle: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.green)),
-            ),
+            title: appbarHeading('Admin Panel', 30),
             elevation: 0,
             actions: [
               IconButton(
                   onPressed: () {
                     logoutAlertDialog(context, signout);
                   },
-                  icon: Icon(Icons.logout))
+                  icon: const Icon(
+                    Icons.logout,
+                    color: Colors.grey,
+                  ))
             ],
           ),
         ),
@@ -85,7 +82,7 @@ class _AdminModuleState extends State<AdminModule> {
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.file(
                                     File(movie.imageUrl),
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
@@ -106,7 +103,7 @@ class _AdminModuleState extends State<AdminModule> {
                                               child: Text(
                                                 '${movie.title}(${DateFormat('yyyy').format(movie.releaseyear)})',
                                                 style: GoogleFonts.ubuntu(
-                                                    textStyle: TextStyle(
+                                                    textStyle: const TextStyle(
                                                         color: Colors.black,
                                                         fontSize: 18,
                                                         fontWeight:
@@ -129,7 +126,7 @@ class _AdminModuleState extends State<AdminModule> {
                                           child: Text(
                                             'Director :${movie.moviedirector}',
                                             style: GoogleFonts.ubuntu(
-                                              textStyle: TextStyle(
+                                              textStyle: const TextStyle(
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 16),
@@ -147,7 +144,7 @@ class _AdminModuleState extends State<AdminModule> {
                                     child: Text(
                                       'Language :${movie.movielanguage}',
                                       style: GoogleFonts.ubuntu(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16),
@@ -163,7 +160,8 @@ class _AdminModuleState extends State<AdminModule> {
                                           allowHalfRating: true,
                                           itemCount: 5,
                                           itemSize: 18,
-                                          itemBuilder: (context, _) => Icon(
+                                          itemBuilder: (context, _) =>
+                                              const Icon(
                                                 Icons.star,
                                                 color: Color.fromARGB(
                                                     255, 238, 182, 13),
@@ -173,7 +171,7 @@ class _AdminModuleState extends State<AdminModule> {
                                     children: [
                                       InkWell(
                                         onTap: () {
-                                          Navigator.of(context).pushReplacement(
+                                          Navigator.of(context).push(
                                               MaterialPageRoute(
                                                   builder: (context) {
                                             return EditAndDeleteScreen(
@@ -182,79 +180,19 @@ class _AdminModuleState extends State<AdminModule> {
                                             );
                                           }));
                                         },
-                                        child: Icon(
+                                        child: const Icon(
                                           Icons.edit,
-                                          color:
-                                              Color.fromARGB(255, 67, 187, 129),
+                                          color: Colors.teal,
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 5,
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return AlertDialog(
-                                                  title: Text(
-                                                    'Delete Movie',
-                                                    style: GoogleFonts.ubuntu(
-                                                        textStyle: TextStyle(
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color:
-                                                                Colors.black)),
-                                                  ),
-                                                  content: Text(
-                                                      'Are you sure want to delete?',
-                                                      style: GoogleFonts.ubuntu(
-                                                          textStyle: TextStyle(
-                                                              fontSize: 17,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                              color: Colors
-                                                                  .black))),
-                                                  actions: [
-                                                    TextButton(
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                        child: Text(
-                                                          'No',
-                                                          style: GoogleFonts.ubuntu(
-                                                              textStyle: TextStyle(
-                                                                  fontSize: 16,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  color: Colors
-                                                                      .black)),
-                                                        )),
-                                                    TextButton(
-                                                        onPressed: () {
-                                                          deleteMovie(movie);
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                        child: Text('yes',
-                                                            style: GoogleFonts.ubuntu(
-                                                                textStyle: TextStyle(
-                                                                    fontSize:
-                                                                        16,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    color: Colors
-                                                                        .black))))
-                                                  ],
-                                                );
-                                              });
+                                          deletedialog(movie, context);
                                         },
-                                        child: Icon(
+                                        child: const Icon(
                                           Icons.delete,
                                           color:
                                               Color.fromARGB(255, 241, 81, 70),
@@ -282,24 +220,19 @@ class _AdminModuleState extends State<AdminModule> {
           label: Text(
             'Movie',
             style: GoogleFonts.ubuntu(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                     fontWeight: FontWeight.w500,
                     color: Colors.black,
                     fontSize: 19)),
           ),
-          icon: Icon(Icons.add, color: Colors.black, size: 30),
+          icon: const Icon(Icons.add, color: Colors.black, size: 30),
         ));
-  }
-
-  void deleteMovie(movies movie) async {
-    await movie.delete();
-    // showSnackBar(context, 'Movie Deleted Succesfully', Colors.red);
   }
 
   void signout(BuildContext ctx) async {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) {
-      return UserLogin();
+      return const UserLogin();
     }), (route) => false);
   }
 }

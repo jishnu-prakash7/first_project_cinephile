@@ -1,4 +1,5 @@
-// ignore_for_file: non_constant_identifier_names, prefer_const_constructors
+
+// ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -31,7 +32,7 @@ Widget LoginTextformField(
         }
       },
       decoration: InputDecoration(
-          labelText: hintText,
+          hintText: hintText,
           labelStyle: TextStyle(color: Colors.black),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),

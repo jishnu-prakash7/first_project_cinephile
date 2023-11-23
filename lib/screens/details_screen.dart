@@ -1,9 +1,7 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'dart:io';
 
 import 'package:firstprojectcinephile/models/movies.dart';
-import 'package:firstprojectcinephile/widgets/homeAndDetails.dart';
+import 'package:firstprojectcinephile/widgets/home_and_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -29,33 +27,33 @@ class _DetailsScreenState extends State<DetailsScreen> {
         preferredSize:
             Size.fromHeight(MediaQuery.of(context).size.height * 0.14),
         child: Container(
-          padding: EdgeInsets.all(18),
+          padding: const EdgeInsets.all(18),
           child: AppBar(
             primary: false,
-            flexibleSpace: Padding(padding: EdgeInsets.all(20)),
+            flexibleSpace: const Padding(padding: EdgeInsets.all(20)),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             backgroundColor: Colors.black,
             elevation: 0,
             leading: IconButton(
                 style: ButtonStyle(
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        side: BorderSide(width: 2))),
-                    ),
+                  shape: MaterialStateProperty.all(
+                      const RoundedRectangleBorder(side: BorderSide(width: 2))),
+                ),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: Icon(Icons.arrow_back_ios, color: Colors.white)),
+                icon: const Icon(Icons.arrow_back_ios, color: Colors.white)),
             title: Text(
               'Details',
               style: GoogleFonts.ubuntu(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold)),
             ),
             actions: [
               IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.bookmark, color: Colors.white))
+                  icon: const Icon(Icons.bookmark, color: Colors.white))
             ],
           ),
         ),
@@ -84,78 +82,81 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     child: Text(
                       '${widget.movie.title} (${DateFormat('yyyy').format(widget.movie.releaseyear)})',
                       style: GoogleFonts.ubuntu(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                               color: Color.fromARGB(255, 211, 210, 210),
                               fontSize: 20,
                               fontWeight: FontWeight.w500)),
                     ),
                   ),
-                  Row(
-                    children: [
-                      RatingAndGenereSection(
-                        DateFormat('dd-MMM-yyyy')
-                            .format(widget.movie.releaseyear),
-                        Icons.calendar_today,
-                        Color.fromARGB(255, 234, 233, 233),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8, right: 8),
-                        child: SizedBox(
-                            height: 15,
-                            child: VerticalDivider(
-                              width: 2,
-                              thickness: 2,
-                              color: Color.fromARGB(255, 106, 106, 106),
-                            )),
-                      ),
-                      RatingAndGenereSection(
-                        runtime(widget.movie.time),
-                        FontAwesomeIcons.clock,
-                        Color.fromARGB(255, 234, 233, 233),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8, right: 8),
-                        child: SizedBox(
-                            height: 15,
-                            child: VerticalDivider(
-                              width: 2,
-                              thickness: 2,
-                              color: Color.fromARGB(255, 106, 106, 106),
-                            )),
-                      ),
-                      RatingBar.builder(
-                          ignoreGestures: true,
-                          initialRating: widget.movie.movierating,
-                          minRating: 1,
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          itemCount: 5,
-                          itemSize: 17,
-                          itemBuilder: (context, _) => Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                              ),
-                          onRatingUpdate: (rating) {}),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8, right: 8),
-                        child: SizedBox(
-                            height: 15,
-                            child: VerticalDivider(
-                              width: 2,
-                              thickness: 2,
-                              color: Color.fromARGB(255, 106, 106, 106),
-                            )),
-                      ),
-                      IconButton(
-                          onPressed: () {},
-                          icon: FaIcon(
-                            FontAwesomeIcons.shareFromSquare,
-                            color: Colors.grey,
-                          ))
-                    ],
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        RatingAndGenereSection(
+                          DateFormat('dd-MMM-yyyy')
+                              .format(widget.movie.releaseyear),
+                          Icons.calendar_today,
+                          const Color.fromARGB(255, 234, 233, 233),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 8, right: 8),
+                          child: SizedBox(
+                              height: 15,
+                              child: VerticalDivider(
+                                width: 2,
+                                thickness: 2,
+                                color: Color.fromARGB(255, 106, 106, 106),
+                              )),
+                        ),
+                        RatingAndGenereSection(
+                          runtime(widget.movie.time),
+                          FontAwesomeIcons.clock,
+                          const Color.fromARGB(255, 234, 233, 233),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 8, right: 8),
+                          child: SizedBox(
+                              height: 15,
+                              child: VerticalDivider(
+                                width: 2,
+                                thickness: 2,
+                                color: Color.fromARGB(255, 106, 106, 106),
+                              )),
+                        ),
+                        RatingBar.builder(
+                            ignoreGestures: true,
+                            initialRating: widget.movie.movierating,
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemSize: 17,
+                            itemBuilder: (context, _) => const Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
+                            onRatingUpdate: (rating) {}),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 8, right: 8),
+                          child: SizedBox(
+                              height: 15,
+                              child: VerticalDivider(
+                                width: 2,
+                                thickness: 2,
+                                color: Color.fromARGB(255, 106, 106, 106),
+                              )),
+                        ),
+                        IconButton(
+                            onPressed: () {},
+                            icon: const FaIcon(
+                              FontAwesomeIcons.shareFromSquare,
+                              color: Colors.grey,
+                            ))
+                      ],
+                    ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5, right: 5, top: 5),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 5, right: 5, top: 5),
                     child: Divider(
                       thickness: 2,
                       color: Color.fromARGB(255, 90, 90, 90),
@@ -166,7 +167,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     child: Text(
                       'Director : ${widget.movie.moviedirector}',
                       style: GoogleFonts.ubuntu(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                             color: Color.fromARGB(255, 211, 210, 210),
                             fontWeight: FontWeight.w500,
                             fontSize: 17),
@@ -178,7 +179,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     child: Text(
                       'Language : ${widget.movie.movielanguage}',
                       style: GoogleFonts.ubuntu(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                             color: Color.fromARGB(255, 211, 210, 210),
                             fontWeight: FontWeight.w500,
                             fontSize: 17),
@@ -190,15 +191,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     child: Text(
                       'Genere : ${widget.movie.moviegenre}',
                       style: GoogleFonts.ubuntu(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                             color: Color.fromARGB(255, 211, 210, 210),
                             fontWeight: FontWeight.w500,
                             fontSize: 17),
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5, right: 5),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 5, right: 5),
                     child: Divider(
                       thickness: 2,
                       color: Color.fromARGB(255, 90, 90, 90),
@@ -207,8 +208,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   Text(
                     widget.movie.review,
                     style: GoogleFonts.ubuntu(
-                        textStyle: TextStyle(
-                            color: const Color.fromARGB(255, 236, 234, 234),
+                        textStyle: const TextStyle(
+                            color: Color.fromARGB(255, 236, 234, 234),
                             fontSize: 15)),
                   )
                 ],
