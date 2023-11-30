@@ -1,21 +1,20 @@
-// , prefer_const_literals_to_create_immutables, camel_case_types, use_key_in_widget_constructors
 
-// ignore_for_file: camel_case_types, use_key_in_widget_constructors
+// ignore_for_file: camel_case_types
 
 import 'dart:io';
 
-import 'package:firstprojectcinephile/models/movies.dart';
-import 'package:firstprojectcinephile/screens/admin_module.dart';
-import 'package:firstprojectcinephile/widgets/add_and_edit_movie.dart';
+import 'package:firstprojectcinephile/screens/movie/function.dart';
+import 'package:firstprojectcinephile/widgets/add_and_edit_movie_ref.dart';
 import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 
 class addMovieScreen extends StatefulWidget {
+  const addMovieScreen({super.key});
+
   @override
   State<addMovieScreen> createState() => _addMovieScreenState();
 }
@@ -32,17 +31,8 @@ class _addMovieScreenState extends State<addMovieScreen> {
   final reviewcontroller = TextEditingController();
   final dateController = TextEditingController();
   final dateFocusNode = FocusNode();
-
   XFile? _selectedImage;
-  dynamic movieRating = 0.0;
-
-  @override
-  void dispose() {
-    dateController.dispose();
-    dateFocusNode.dispose();
-    super.dispose();
-  }
-
+  double movieRating = 0.0;
   late Box moviesBox;
 
   @override
@@ -77,7 +67,7 @@ class _addMovieScreenState extends State<addMovieScreen> {
                       ),
                       child: GestureDetector(
                         onTap: () async {
-                          XFile? pickimage = await PickImageFormgallery();
+                          XFile? pickimage = await pickImageFormgallery();
                           setState(() {
                             _selectedImage = pickimage;
                           });
@@ -108,43 +98,10 @@ class _addMovieScreenState extends State<addMovieScreen> {
                             decoration: const BoxDecoration(),
                             child: Column(
                               children: [
-                                TextFormField(
-                                  focusNode: dateFocusNode,
-                                  readOnly: true,
-                                  onTap: () {
-                                    dateFocusNode.requestFocus();
-                                    _selectDate(context);
-                                  },
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Date is Needed';
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  controller: dateController,
-                                  style: const TextStyle(
-                                      fontSize: 15, color: Colors.white),
-                                  decoration: InputDecoration(
-                                      fillColor:
-                                          const Color.fromARGB(255, 39, 38, 38),
-                                      filled: true,
-                                      contentPadding:
-                                          const EdgeInsets.only(left: 13),
-                                      hintText: 'Select Date',
-                                      hintStyle:
-                                          const TextStyle(color: Colors.white),
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          borderSide: const BorderSide(
-                                              color: Colors.grey, width: 2)),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(30),
-                                        borderSide: const BorderSide(
-                                            color: Colors.black, width: 1.5),
-                                      )),
-                                ),
+                                DateTextformField(
+                                  dateFocusNode: dateFocusNode,
+                                  dateController: dateController,
+                                )
                               ],
                             ),
                           )
@@ -230,34 +187,7 @@ class _addMovieScreenState extends State<addMovieScreen> {
                     ],
                   ),
                   addAndEditMovieTitile('Review'),
-                  TextFormField(
-                    style: const TextStyle(color: Colors.white),
-                    keyboardType: TextInputType.multiline,
-                    controller: reviewcontroller,
-                    maxLines: null,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Field is needed';
-                      } else {
-                        return null;
-                      }
-                    },
-                    decoration: InputDecoration(
-                        fillColor: const Color.fromARGB(255, 39, 38, 38),
-                        filled: true,
-                        hintText: 'Write review...',
-                        hintStyle: const TextStyle(color: Colors.white),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.grey,
-                              width: 1.5,
-                            ),
-                            borderRadius: BorderRadius.circular(30)),
-                        border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Color.fromARGB(255, 189, 188, 188)),
-                            borderRadius: BorderRadius.circular(30))),
-                  ),
+                  reviewTextformField(reviewcontroller),
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: Row(
@@ -270,7 +200,9 @@ class _addMovieScreenState extends State<addMovieScreen> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30))),
                             onPressed: () {
-                              addmovie();
+                              addmovie(
+                                  _formKey,_selectedImage,context,movieRating,titleController,dateController,languageController,timeController,directorController,genreController,reviewcontroller,ratingcontroller,
+                                  setState);
                             },
                             child: Text(
                               'Submit',
@@ -288,82 +220,5 @@ class _addMovieScreenState extends State<addMovieScreen> {
             )),
       ),
     );
-  }
-
-  void addmovie() {
-    final isValid = _formKey.currentState?.validate();
-    if (isValid!) {
-      if (_selectedImage == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(
-              "You must select an Image",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-        );
-        return;
-      } else if (movieRating == 0) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(
-              "You must select Rating",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-        );
-        return;
-      } else {
-        moviesBox.add(movies(
-            title: titleController.text.trim(),
-            releaseyear: DateFormat('dd-MM-yyyy').parse(dateController.text),
-            movielanguage: languageController.text.trim(),
-            time: int.parse(timeController.text.trim()),
-            moviedirector: directorController.text.trim(),
-            movierating: movieRating,
-            moviegenre: genreController.text.trim(),
-            review: reviewcontroller.text.trim(),
-            imageUrl: _selectedImage!.path));
-
-        titleController.clear();
-        dateController.clear();
-        languageController.clear();
-        timeController.clear();
-        directorController.clear();
-        ratingcontroller.clear();
-        genreController.clear();
-        reviewcontroller.clear();
-        setState(() {
-          _selectedImage = null;
-        });
-
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) {
-          return const AdminModule();
-        }), (route) => false);
-        showSnackBar(context, 'Movie Added Succesfully', Colors.teal);
-      }
-    }
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2101),
-    );
-
-    if (picked != null && picked != DateTime.now()) {
-      setState(() {
-        dateController.text = DateFormat('dd-MM-yyyy').format(picked);
-      });
-    }
   }
 }

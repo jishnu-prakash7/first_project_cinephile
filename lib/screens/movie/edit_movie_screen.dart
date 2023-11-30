@@ -1,8 +1,9 @@
 import 'dart:io';
 
-import 'package:firstprojectcinephile/models/movies.dart';
-import 'package:firstprojectcinephile/screens/admin_module.dart';
-import 'package:firstprojectcinephile/widgets/add_and_edit_movie.dart';
+import 'package:firstprojectcinephile/models/movie.dart';
+import 'package:firstprojectcinephile/screens/admin/admin_module_screen.dart';
+import 'package:firstprojectcinephile/widgets/add_and_edit_movie_ref.dart';
+import 'package:firstprojectcinephile/widgets/db_function.dart';
 import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -35,28 +36,6 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
   late TextEditingController dateController;
   final dateFocusNode = FocusNode();
 
-  @override
-  void dispose() {
-    dateController.dispose();
-    dateFocusNode.dispose();
-    super.dispose();
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2101),
-    );
-
-    if (picked != null && picked != DateTime.now()) {
-      setState(() {
-        dateController.text = DateFormat('dd-MM-yyyy').format(picked);
-      });
-    }
-  }
-
   late Box moviesBox;
 
   @override
@@ -74,15 +53,7 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
     dateController = TextEditingController(
         text: DateFormat('dd-MM-yyyy').format(widget.movie.releaseyear));
     super.initState();
-  }
-
-  Future<XFile?> _pickImageFromCamera() async {
-    final pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
-      return XFile(pickedImage.path);
-    }
-    return null;
+    movieRating = widget.movie.movierating;
   }
 
   @override
@@ -90,18 +61,17 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.black,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.of(context)
-                  .pushReplacement(MaterialPageRoute(builder: (context) {
-                return const AdminModule();
-              }));
-            },
-            icon: const Icon(Icons.arrow_back_ios)),
-        title:appbarHeading('Edit Movie',25)
-      ),
+          elevation: 0,
+          backgroundColor: Colors.black,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .pushReplacement(MaterialPageRoute(builder: (context) {
+                  return const AdminModule();
+                }));
+              },
+              icon: const Icon(Icons.arrow_back_ios)),
+          title: appbarHeading('Edit Movie', 25)),
       body: SingleChildScrollView(
         child: Form(
             key: _formKey,
@@ -120,7 +90,7 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
                       ),
                       child: GestureDetector(
                         onTap: () async {
-                          XFile? pickimage = await _pickImageFromCamera();
+                          XFile? pickimage = await pickImageFormgallery();
                           setState(() {
                             _selectedImage = pickimage;
                           });
@@ -156,41 +126,9 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
                             decoration: const BoxDecoration(),
                             child: Column(
                               children: [
-                                TextFormField(
-                                  focusNode: dateFocusNode,
-                                  readOnly: true,
-                                  onTap: () {
-                                    dateFocusNode.requestFocus();
-                                    _selectDate(context);
-                                  },
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Date is Needed';
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  controller: dateController,
-                                  style: const TextStyle(
-                                      fontSize: 15, color: Colors.white),
-                                  decoration: InputDecoration(
-                                      fillColor:
-                                          const Color.fromARGB(255, 39, 38, 38),
-                                      filled: true,
-                                      contentPadding:
-                                          const EdgeInsets.only(left: 20),
-                                      hintText: 'Select Date',
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          borderSide: const BorderSide(
-                                              color: Colors.grey, width: 2)),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(30),
-                                        borderSide: const BorderSide(
-                                            color: Colors.black, width: 1.5),
-                                      )),
-                                ),
+                                DateTextformField(
+                                    dateFocusNode: dateFocusNode,
+                                    dateController: dateController)
                               ],
                             ),
                           )
@@ -276,32 +214,7 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
                     ],
                   ),
                   addAndEditMovieTitile('Review'),
-                  TextFormField(
-                    keyboardType: TextInputType.multiline,
-                    controller: reviewcontroller,
-                    maxLines: null,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Field is needed';
-                      } else {
-                        return null;
-                      }
-                    },
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                        fillColor: const Color.fromARGB(255, 39, 38, 38),
-                        filled: true,
-                        hintText: 'Write review...',
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.grey,
-                              width: 1.5,
-                            ),
-                            borderRadius: BorderRadius.circular(30)),
-                        border: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.white),
-                            borderRadius: BorderRadius.circular(30))),
-                  ),
+                  reviewTextformField(reviewcontroller),
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: Row(
@@ -338,8 +251,7 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
     final isValid = _formKey.currentState?.validate();
     if (isValid!) {
       if (_selectedImage == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('you must select an Image')));
+        showSnackBar(context, 'You must select an Image', Colors.red);
       } else {
         final value = movies(
             title: titleController.text,
@@ -352,7 +264,7 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
             review: reviewcontroller.text,
             imageUrl: _selectedImage!.path);
 
-        moviesBox.putAt(widget.index, value);
+        updateMovieInDb(value, widget.index);
 
         Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (context) {

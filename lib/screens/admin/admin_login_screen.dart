@@ -1,8 +1,6 @@
-
-
-import 'package:firstprojectcinephile/screens/admin_module.dart';
-import 'package:firstprojectcinephile/screens/user_login_screen.dart';
-import 'package:firstprojectcinephile/widgets/login_and_signup.dart';
+import 'package:firstprojectcinephile/screens/admin/admin_module_screen.dart';
+import 'package:firstprojectcinephile/screens/user/user_login_screen.dart';
+import 'package:firstprojectcinephile/widgets/login_and_signup_ref.dart';
 import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -93,10 +91,10 @@ class AdminLogin extends StatelessWidget {
                               final password = passwordcontroller.text;
                               if (isvalid!) {
                                 if (name == 'jishnu' && password == '123') {
-                                  Navigator.of(context).pushReplacement(
+                                  Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(builder: (context) {
                                     return const AdminModule();
-                                  }));
+                                  }), (route) => false);
                                 }
                               }
                             },
@@ -115,13 +113,14 @@ class AdminLogin extends StatelessWidget {
                           onTap: () {
                             Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(builder: (context) {
-                              return UserLogin();
+                              return const UserLogin();
                             }));
                           },
                           child: Text('User ?',
                               style: GoogleFonts.ubuntu(
                                   textStyle: const TextStyle(fontSize: 16),
-                                  color: const Color.fromARGB(255, 245, 63, 8))),
+                                  color:
+                                      const Color.fromARGB(255, 245, 63, 8))),
                         ),
                       )
                     ]),

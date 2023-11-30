@@ -1,11 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:firstprojectcinephile/main.dart';
-import 'package:firstprojectcinephile/models/user.dart';
-import 'package:firstprojectcinephile/screens/admin_login.dart';
-import 'package:firstprojectcinephile/screens/home_screen.dart';
-import 'package:firstprojectcinephile/screens/signup_screen.dart';
-import 'package:firstprojectcinephile/widgets/login_and_signup.dart';
+import 'package:firstprojectcinephile/screens/admin/admin_login_screen.dart';
+import 'package:firstprojectcinephile/screens/movie/home_screen.dart';
+import 'package:firstprojectcinephile/screens/user/user_signup_screen.dart';
+import 'package:firstprojectcinephile/widgets/db_function.dart';
+import 'package:firstprojectcinephile/widgets/login_and_signup_ref.dart';
 import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +40,7 @@ class _UserLoginState extends State<UserLogin> {
     userBox = Hive.box('user');
   }
 
- int? loggedInUserIndex;
+  int? loggedInUserIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -126,12 +126,15 @@ class _UserLoginState extends State<UserLogin> {
                                   final password = passwordcontroller.text;
 
                                   for (var i = 0; i < userBox.length; i++) {
-                                    final storedUser = userBox.getAt(i) as User;
+                                    final storedUser = getUserAt(i);
                                     if (storedUser.email == email &&
                                         storedUser.password ==
                                             int.parse(password)) {
-                                       loggedInUserIndex = i;
+                                      loggedInUserIndex = i;
                                       checkLogin(context);
+                                      setState(() {
+                                        // isuser = true;
+                                      });
                                       flag = 0;
                                       break;
                                     } else {
@@ -211,7 +214,7 @@ class _UserLoginState extends State<UserLogin> {
     final sharedprefs = await SharedPreferences.getInstance();
     await sharedprefs.setBool(KEY, true);
 
-    await sharedprefs.setInt('loggedInUserIndexKey',loggedInUserIndex!);
+    await sharedprefs.setInt('loggedInUserIndexKey', loggedInUserIndex!);
 
     Navigator.of(ctx).pushReplacement(MaterialPageRoute(builder: (context) {
       return const HomeScreen();

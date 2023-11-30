@@ -1,9 +1,8 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'dart:io';
 
 import 'package:firstprojectcinephile/models/user.dart';
-import 'package:firstprojectcinephile/screens/user_profile_screen.dart';
+import 'package:firstprojectcinephile/screens/user/user_profile_screen.dart';
+import 'package:firstprojectcinephile/widgets/db_function.dart';
 import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:firstprojectcinephile/widgets/user_profile_ref.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +78,7 @@ class _UserProfileEditState extends State<UserProfileEdit> {
                     maxRadius: 60,
                     child: GestureDetector(
                         onTap: () async {
-                          XFile? pickimage = await PickImageFormgallery();
+                          XFile? pickimage = await pickImageFormgallery();
                           setState(() {
                             _selectedImage = pickimage;
                           });
@@ -121,13 +120,14 @@ class _UserProfileEditState extends State<UserProfileEdit> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 30, top: 50),
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(fixedSize: Size(300, 50)),
+                    style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(300, 50)),
                     onPressed: () {
                       validate();
                     },
                     child: Text('Save',
                         style: GoogleFonts.ubuntu(
-                            textStyle: TextStyle(fontSize: 20),
+                            textStyle: const TextStyle(fontSize: 20),
                             color: Colors.black)),
                   ),
                 )
@@ -143,11 +143,12 @@ class _UserProfileEditState extends State<UserProfileEdit> {
     final isvalid = _formKey.currentState?.validate();
     if (isvalid!) {
       final value = User(
-          image: _selectedImage!.path,
+          image: _selectedImage?.path,
           userName: namecontroller.text.trim(),
           email: emailcontroller.text,
           password: int.parse(passwordcontroller.text.trim()));
-      userBox.putAt(widget.index!, value);
+
+      updateUserInDb(value, widget.index!);
 
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) {

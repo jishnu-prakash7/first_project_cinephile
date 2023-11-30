@@ -3,7 +3,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 
-part 'movies.g.dart';
+part 'movie.g.dart';
 
 @HiveType(typeId: 1)
 class movies extends HiveObject{

@@ -1,6 +1,7 @@
 import 'package:firstprojectcinephile/models/user.dart';
-import 'package:firstprojectcinephile/screens/user_login_screen.dart';
-import 'package:firstprojectcinephile/widgets/login_and_signup.dart';
+import 'package:firstprojectcinephile/screens/user/user_login_screen.dart';
+import 'package:firstprojectcinephile/widgets/db_function.dart';
+import 'package:firstprojectcinephile/widgets/login_and_signup_ref.dart';
 import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class _SignupState extends State<Signup> {
   final passwordcontroller = TextEditingController();
 
   RegExp get _emailRegex => RegExp(r'^\S+@\S+$');
-  RegExp get _nameRegex => RegExp(r'^[a-zA-Z ]+$');
+  RegExp get _nameRegex => RegExp(r'^[a-zA-Z][a-zA-Z ]*$');
   RegExp get _passwordRegex => RegExp(r'^(?=.*[0-9].*[0-9].*[0-9])[0-9]+$');
 
   late Box userBox;
@@ -123,11 +124,11 @@ class _SignupState extends State<Signup> {
                                 final isvalid =
                                     _formKey.currentState?.validate();
                                 if (isvalid!) {
-                                  userBox.add(User(
-                                      userName: namecontroller.text,
-                                      email: emailcontroller.text,
-                                      password:
-                                          int.parse(passwordcontroller.text)));
+                                  addUserToDb(User(
+                                      userName: namecontroller.text.trim(),
+                                      email: emailcontroller.text.trim(),
+                                      password: int.parse(
+                                          passwordcontroller.text.trim())));
                                   Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(builder: (context) {
                                     return const UserLogin();

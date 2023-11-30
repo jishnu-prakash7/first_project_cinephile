@@ -1,10 +1,11 @@
-// ignore_for_file: prefer_const_constructors, constant_identifier_names, unnecessary_import
+// ignore_for_file: constant_identifier_names
 
-import 'package:firstprojectcinephile/models/movies.dart';
+import 'package:firstprojectcinephile/models/comment.dart';
+import 'package:firstprojectcinephile/models/movie.dart';
 import 'package:firstprojectcinephile/models/user.dart';
-import 'package:firstprojectcinephile/screens/splash_screen.dart';
+import 'package:firstprojectcinephile/models/watchlist.dart';
+import 'package:firstprojectcinephile/screens/movie/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart' as path;
 
@@ -20,8 +21,12 @@ void main() async {
   await Hive.openBox('movies');
   Hive.registerAdapter(UserAdapter());
   await Hive.openBox('user');
+  Hive.registerAdapter(CommentAdapter());
+  await Hive.openBox('comment');
+  Hive.registerAdapter(WatchlistAdapter());
+  await Hive.openBox('watchlist');
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -29,7 +34,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'CinephileApp',
       home: Splash(),
       debugShowCheckedModeBanner: false,

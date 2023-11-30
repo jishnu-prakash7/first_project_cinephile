@@ -1,5 +1,8 @@
-import 'package:firstprojectcinephile/screens/user_login_screen.dart';
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:firstprojectcinephile/screens/user/user_login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -71,6 +74,7 @@ Future<dynamic> logoutAlertDialog(BuildContext ctx1, Function signout) {
 void signout(BuildContext ctx) async {
   final sharedpref = await SharedPreferences.getInstance();
   await sharedpref.clear();
+  // isuser=false;
   Navigator.of(ctx).pushAndRemoveUntil(MaterialPageRoute(builder: (ctx) {
     return const UserLogin();
   }), (route) => false);
@@ -100,11 +104,29 @@ appbarHeading(String heading, double size) {
   );
 }
 
-Future<XFile?> PickImageFormgallery() async {
+Future<XFile?> pickImageFormgallery() async {
   final pickedImage =
       await ImagePicker().pickImage(source: ImageSource.gallery);
   if (pickedImage != null) {
     return XFile(pickedImage.path);
   }
   return null;
+}
+
+//Rating Bar
+
+ratingbar(movierating) {
+  return RatingBar.builder(
+      ignoreGestures: true,
+      initialRating: movierating,
+      minRating: 1,
+      direction: Axis.horizontal,
+      allowHalfRating: true,
+      itemCount: 5,
+      itemSize: 17,
+      itemBuilder: (context, _) => const Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
+      onRatingUpdate: (rating) {});
 }

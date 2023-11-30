@@ -1,8 +1,7 @@
 import 'dart:io';
-import 'package:firstprojectcinephile/models/user.dart';
-import 'package:firstprojectcinephile/screens/details_screen.dart';
-import 'package:firstprojectcinephile/screens/drawer.dart';
-import 'package:firstprojectcinephile/widgets/home_and_details.dart';
+import 'package:firstprojectcinephile/screens/movie/details_screen.dart';
+import 'package:firstprojectcinephile/screens/movie/drawer.dart';
+import 'package:firstprojectcinephile/widgets/home_and_details_ref.dart';
 import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,23 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final searchController = TextEditingController();
   List<dynamic> searchMovie = [];
-
   late Box moviesBox;
-
-  void search() {
-    String query = searchController.text.toLowerCase();
-    if (query.isNotEmpty) {
-      searchMovie = moviesBox.values
-          .where((movie) =>
-              movie.title.toLowerCase().contains(query) ||
-              movie.releaseyear.toString().contains(query) ||
-              movie.movierating.toString().contains(query))
-          .toList();
-    } else {
-      searchMovie = List.from(moviesBox.values);
-    }
-    setState(() {});
-  }
 
   @override
   void initState() {
@@ -122,6 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 .push(MaterialPageRoute(builder: (context) {
                               return DetailsScreen(
                                 movie: movie,
+                                movieindex: index,
                               );
                             }));
                           },
@@ -143,20 +127,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.of(context)
                                   .push(MaterialPageRoute(builder: (context) {
                                 return DetailsScreen(
+                                  movieindex: index,
                                   movie: movie,
                                 );
                               }));
                             },
                             child: Row(
                               children: [
-                                Text(
-                                  '${movie.title} (${DateFormat('yyyy').format(movie.releaseyear)})',
-                                  style: GoogleFonts.ubuntu(
-                                      textStyle: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w500)),
-                                ),
+                                detailsScectionText(
+                                    '${movie.title} (${DateFormat('yyyy').format(movie.releaseyear)})',
+                                    17,
+                                    Colors.white)
                               ],
                             ),
                           ),
@@ -169,5 +150,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 }),
       ),
     ));
+  }
+
+  void search() {
+    String query = searchController.text.toLowerCase();
+    if (query.isNotEmpty) {
+      searchMovie = moviesBox.values
+          .where((movie) =>
+              movie.title.toLowerCase().contains(query) ||
+              movie.releaseyear.toString().contains(query) ||
+              movie.movierating.toString().contains(query))
+          .toList();
+    } else {
+      searchMovie = List.from(moviesBox.values);
+    }
   }
 }
