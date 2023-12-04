@@ -16,7 +16,6 @@ void main() async {
   final dir = await path.getApplicationDocumentsDirectory();
   Hive.init(dir.path);
   Hive.initFlutter('hive_db');
-
   Hive.registerAdapter(moviesAdapter());
   await Hive.openBox('movies');
   Hive.registerAdapter(UserAdapter());
@@ -25,7 +24,6 @@ void main() async {
   await Hive.openBox('comment');
   Hive.registerAdapter(WatchlistAdapter());
   await Hive.openBox('watchlist');
-
   runApp(const MyApp());
 }
 

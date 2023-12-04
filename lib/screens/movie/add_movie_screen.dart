@@ -1,4 +1,3 @@
-
 // ignore_for_file: camel_case_types
 
 import 'dart:io';
@@ -8,7 +7,6 @@ import 'package:firstprojectcinephile/widgets/add_and_edit_movie_ref.dart';
 import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -41,6 +39,10 @@ class _addMovieScreenState extends State<addMovieScreen> {
     moviesBox = Hive.box('movies');
   }
 
+  List<String> optionsGenre = ['Action', 'Comedy', 'Horror', 'Fiction'];
+  List<String> optionsLanguage = ['English', 'Hindi', 'Malayalam', 'Tamil'];
+  String? selectedGenre;
+  String? selectedLanguage;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,11 +113,15 @@ class _addMovieScreenState extends State<addMovieScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           addAndEditMovieTitile('Language'),
-                          addAndEditMovieTextField(
-                              'Enter language',
-                              languageController,
-                              'language is needed',
-                              TextInputType.name)
+                          DropdownFormField(
+                              hintText: 'Select Language',
+                              options: optionsLanguage,
+                              selectedGenre: selectedLanguage ?? '',
+                              onGenreChanged: (value) {
+                                setState(() {
+                                  selectedLanguage = value;
+                                });
+                              })
                         ],
                       ),
                     ],
@@ -177,44 +183,38 @@ class _addMovieScreenState extends State<addMovieScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           addAndEditMovieTitile('Genre'),
-                          addAndEditMovieTextField(
-                              'eg:Action,Comedy',
-                              genreController,
-                              'genre is needed',
-                              TextInputType.name)
+                          DropdownFormField(
+                            hintText: 'Select Genre',
+                            selectedGenre: selectedGenre ?? '',
+                            onGenreChanged: (value) {
+                              setState(() {
+                                selectedGenre = value;
+                              });
+                            },
+                            options: optionsGenre,
+                          ),
                         ],
                       ),
                     ],
                   ),
                   addAndEditMovieTitile('Review'),
                   reviewTextformField(reviewcontroller),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 40),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30))),
-                            onPressed: () {
-                              addmovie(
-                                  _formKey,_selectedImage,context,movieRating,titleController,dateController,languageController,timeController,directorController,genreController,reviewcontroller,ratingcontroller,
-                                  setState);
-                            },
-                            child: Text(
-                              'Submit',
-                              style: GoogleFonts.ubuntu(
-                                  textStyle: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 18,
-                                      color: Colors.black)),
-                            )),
-                      ],
-                    ),
-                  )
+                  submitButton(() {
+                    addmovie(
+                        _formKey,
+                        _selectedImage,
+                        context,
+                        movieRating,
+                        titleController,
+                        dateController,
+                        selectedLanguage,
+                        timeController,
+                        directorController,
+                        selectedGenre,
+                        reviewcontroller,
+                        ratingcontroller,
+                        setState);
+                  })
                 ],
               ),
             )),

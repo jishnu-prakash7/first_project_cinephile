@@ -35,7 +35,10 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
   double movieRating = 0.0;
   late TextEditingController dateController;
   final dateFocusNode = FocusNode();
-
+  List<String> optionsGenre = ['Action', 'Comedy', 'Horror', 'Fiction'];
+  List<String> optionsLanguage = ['English', 'Hindi', 'Malayalam', 'Tamil'];
+  String? selectedGenre;
+  String? selectedLanguage;
   late Box moviesBox;
 
   @override
@@ -54,6 +57,8 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
         text: DateFormat('dd-MM-yyyy').format(widget.movie.releaseyear));
     super.initState();
     movieRating = widget.movie.movierating;
+    selectedGenre = widget.movie.moviegenre;
+    selectedLanguage = widget.movie.movielanguage;
   }
 
   @override
@@ -138,11 +143,19 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           addAndEditMovieTitile('Language'),
-                          addAndEditMovieTextField(
-                              'Enter language',
-                              languageController,
-                              'language is needed',
-                              TextInputType.name)
+                          DropdownFormField(
+                              initialvalue: widget.movie.movielanguage,
+                              selectedGenre: selectedLanguage ?? '',
+                              onGenreChanged: (value) {
+                                selectedLanguage = value;
+                              },
+                              options: optionsLanguage,
+                              hintText: 'Enter Language')
+                          // addAndEditMovieTextField(
+                          //     'Enter language',
+                          //     languageController,
+                          //     'language is needed',
+                          //     TextInputType.name)
                         ],
                       ),
                     ],
@@ -204,11 +217,19 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           addAndEditMovieTitile('Genre'),
-                          addAndEditMovieTextField(
-                              'eg:Action,Comedy',
-                              genreController,
-                              'genre is needed',
-                              TextInputType.name)
+                          DropdownFormField(
+                              initialvalue: widget.movie.moviegenre,
+                              selectedGenre: selectedGenre ?? '',
+                              onGenreChanged: (value) {
+                                selectedGenre = value;
+                              },
+                              options: optionsGenre,
+                              hintText: 'Enter Genre')
+                          // addAndEditMovieTextField(
+                          //     'eg:Action,Comedy',
+                          //     genreController,
+                          //     'genre is needed',
+                          //     TextInputType.name)
                         ],
                       ),
                     ],
@@ -260,7 +281,7 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
             time: int.parse(timeController.text),
             moviedirector: directorController.text,
             movierating: movieRating,
-            moviegenre: genreController.text,
+            moviegenre: selectedGenre!,
             review: reviewcontroller.text,
             imageUrl: _selectedImage!.path);
 

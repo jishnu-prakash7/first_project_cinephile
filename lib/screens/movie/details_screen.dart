@@ -64,10 +64,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
     setState(() {
       if (watchlistMovieIndex != -1) {
-        watchlistBox.delete(watchlistBox.keyAt(watchlistMovieIndex));
+        watchlistBox.deleteAt(watchlistMovieIndex);
+        watchlistSnackBar(context, Colors.red, 'Movie Removed from Watchlist');
       } else {
         watchlistBox.add(
             Watchlist(userindex: userindex!, movieindex: widget.movieindex!));
+        watchlistSnackBar(context, Colors.teal, 'Movie Added to Watchlist');
       }
     });
   }

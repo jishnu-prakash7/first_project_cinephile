@@ -1,5 +1,5 @@
-import 'package:firstprojectcinephile/models/movie.dart';
-import 'package:firstprojectcinephile/screens/movie/function.dart';
+// ignore_for_file: camel_case_types, prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -159,8 +159,106 @@ reviewTextformField(reviewcontroller) {
   );
 }
 
-//submit button
+//genre and language dropdown textfield
 
-// submitButton(addmovie movie) {
-//   return 
-// }
+class DropdownFormField extends StatefulWidget {
+  final String selectedGenre;
+  final ValueChanged<String> onGenreChanged;
+  final List<String> options;
+  final String hintText;
+  final String? initialvalue;
+  const DropdownFormField(
+      {super.key,
+      required this.selectedGenre,
+      required this.onGenreChanged,
+      required this.options,
+      required this.hintText,
+      this.initialvalue});
+
+  @override
+  State<DropdownFormField> createState() => _dropdownFormFieldState();
+}
+
+class _dropdownFormFieldState extends State<DropdownFormField> {
+  String? selectedvalue;
+
+  @override
+  void initState() {
+    selectedvalue = widget.initialvalue;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 170,
+      child: Column(
+        children: [
+          DropdownButtonFormField(
+              validator: (value) {
+                if (value == null) {
+                  return 'Genre is needed';
+                } else {
+                  return null;
+                }
+              },
+              value: selectedvalue,
+              dropdownColor: Colors.teal,
+              style: const TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                  fillColor: const Color.fromARGB(255, 39, 38, 38),
+                  filled: true,
+                  contentPadding: const EdgeInsets.only(left: 20),
+                  hintText: widget.hintText,
+                  hintStyle: const TextStyle(color: Colors.white),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide:
+                          const BorderSide(color: Colors.grey, width: 2)),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: const BorderSide(
+                      color: Color.fromARGB(255, 247, 247, 247),
+                    ),
+                  )),
+              items: widget.options
+                  .map((String option) =>
+                      DropdownMenuItem(value: option, child: Text(option)))
+                  .toList(),
+              onChanged: (value) {
+                setState(() {
+                  selectedvalue = value.toString();
+                  widget.onGenreChanged(selectedvalue!);
+                });
+              }),
+        ],
+      ),
+    );
+  }
+}
+
+Widget submitButton(void Function() onPressed) {
+  return Padding(
+    padding: const EdgeInsets.only(top: 10),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ElevatedButton(
+            onPressed: onPressed,
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal,
+                fixedSize: const Size(160, 40),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30))),
+            child: Text(
+              'Submit',
+              style: GoogleFonts.ubuntu(
+                  textStyle: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                      color: Colors.black)),
+            )),
+      ],
+    ),
+  );
+}

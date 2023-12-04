@@ -8,6 +8,7 @@ import 'package:firstprojectcinephile/widgets/admin_module_ref.dart';
 import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/intl.dart';
 
 class WatchlistScreen extends StatefulWidget {
   const WatchlistScreen({super.key});
@@ -42,6 +43,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.black,
         appBar: PreferredSize(
             preferredSize: const Size.fromHeight(70),
             child: AppBar(
@@ -58,6 +60,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                     Icons.arrow_back_ios,
                     color: Color.fromARGB(255, 179, 178, 178),
                   )),
+              backgroundColor: Colors.black,
             )),
         body: ListView.builder(
             itemCount: userWatchlist.length,
@@ -108,7 +111,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                       children: [
                                         Expanded(
                                             child: adminpanelDetailsText(
-                                                '${movie.title}()',
+                                                '${movie.title}(${DateFormat('yyyy').format(movie.releaseyear)})',
                                                 18,
                                                 FontWeight.w700)),
                                       ],
@@ -145,8 +148,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      watchlistBox
-                                          .deleteAt(index);
+                                      watchlistBox.deleteAt(index);
                                       setState(() {
                                         userWatchlist = watchlistBox.values
                                             .where((item) =>

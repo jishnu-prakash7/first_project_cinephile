@@ -6,6 +6,7 @@ import 'package:firstprojectcinephile/screens/admin/admin_module_screen.dart';
 import 'package:firstprojectcinephile/widgets/db_function.dart';
 import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,10 +17,10 @@ void addmovie(
     movieRating,
     titleController,
     dateController,
-    languageController,
+    selectedLanguage,
     timeController,
     directorController,
-    genreController,
+    selectedGenre,
     reviewcontroller,
     ratingcontroller,
     setstatecallback) {
@@ -35,25 +36,25 @@ void addmovie(
       addMovieToDb(movies(
           title: titleController.text.trim(),
           releaseyear: DateFormat('dd-MM-yyyy').parse(dateController.text),
-          movielanguage: languageController.text.trim(),
+          movielanguage: selectedLanguage,
           time: int.parse(timeController.text.trim()),
           moviedirector: directorController.text.trim(),
           movierating: movieRating,
-          moviegenre: genreController.text.trim(),
+          moviegenre: selectedGenre,
           review: reviewcontroller.text.trim(),
           imageUrl: _selectedImage!.path));
 
       titleController.clear();
       dateController.clear();
-      languageController.clear();
       timeController.clear();
       directorController.clear();
       ratingcontroller.clear();
-      genreController.clear();
       reviewcontroller.clear();
 
       setstatecallback(() {
         _selectedImage = null;
+        selectedGenre = null;
+        selectedLanguage = null;
       });
 
       Navigator.of(context).pushAndRemoveUntil(
@@ -84,5 +85,47 @@ void addcomment(formkey, movieindex, userindex, commentController) {
         comment: commentController.text,
         date: DateTime.now()));
     commentController.clear();
+  }
+}
+
+//Watchlist snackbar
+
+void watchlistSnackBar(
+    BuildContext context, Color backgroundColor, String message) {
+  final snackBar = SnackBar(
+    content: Text(message),
+    duration: const Duration(seconds: 1),
+    margin: const EdgeInsets.all(80),
+    backgroundColor: backgroundColor,
+    behavior: SnackBarBehavior.floating,
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+
+//Filtering functions
+
+void search(
+    {TextEditingController? searchController,
+    searchMovie,
+    Box? moviesBox,
+    selectedCatagory}) {
+  String query = searchController!.text.toLowerCase();
+  if (query.isNotEmpty) {
+    searchMovie = moviesBox!.values
+        .where((movie) =>
+            movie.title.toLowerCase().contains(query) ||
+            movie.releaseyear.toString().contains(query) ||
+            movie.movierating.toString().contains(query))
+        .toList();
+  } else {
+    searchMovie = selectedCatagory.isEmpty
+        ? List.from(moviesBox!.values)
+        : moviesBox!.values
+            .where((movie) =>
+                movie.moviegenre.toLowerCase() ==
+                    selectedCatagory.toLowerCase() ||
+                movie.movielanguage.toLowerCase() ==
+                    selectedCatagory.toLowerCase())
+            .toList();
   }
 }

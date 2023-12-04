@@ -81,7 +81,7 @@ adminPanelFloatingActionButton(context) {
 //details text in adminpanel
 
 adminpanelDetailsText(String text,double fontsize,FontWeight fontweight) {
-  return Text(
+  return Text( 
     text,
     style: GoogleFonts.ubuntu(
         textStyle:  TextStyle(

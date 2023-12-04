@@ -84,3 +84,26 @@ commentSessionText(username, Color color, double fontsize) {
         textStyle: TextStyle(color: color, fontSize: fontsize)),
   );
 }
+
+//elevated button home screen
+
+Widget catagoriesButton(String title,void Function()onPressed) {
+  return GestureDetector(
+    onTap:onPressed,
+    child: Padding(
+        padding: const EdgeInsets.only(left: 5, right: 5),
+        child: Container(
+          decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 71, 71, 71),
+              borderRadius: BorderRadius.circular(5)),
+          height: 30,
+          width: 75,
+          child: Center(
+              child: Text(
+            title,
+            style: GoogleFonts.ubuntu(
+                textStyle: const TextStyle(color: Colors.white)),
+          )),
+        )),
+  );
+}
