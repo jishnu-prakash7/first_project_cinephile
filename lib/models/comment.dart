@@ -5,7 +5,7 @@ part 'comment.g.dart';
 @HiveType(typeId: 3)
 class Comment extends HiveObject {
   @HiveField(0)
-  final int movieIndex;
+  final String movieIndex;
   @HiveField(1)
   final int userIndex;
   @HiveField(2)

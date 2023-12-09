@@ -17,6 +17,7 @@ Widget LoginTextformField(
   return SizedBox(
     width: 230,
     child: TextFormField(
+      textCapitalization: TextCapitalization.sentences,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       obscureText: value,
       keyboardType: textType,

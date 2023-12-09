@@ -74,7 +74,6 @@ Future<dynamic> logoutAlertDialog(BuildContext ctx1, Function signout) {
 void signout(BuildContext ctx) async {
   final sharedpref = await SharedPreferences.getInstance();
   await sharedpref.clear();
-  // isuser=false;
   Navigator.of(ctx).pushAndRemoveUntil(MaterialPageRoute(builder: (ctx) {
     return const UserLogin();
   }), (route) => false);
@@ -103,6 +102,8 @@ appbarHeading(String heading, double size) {
             fontSize: size, fontWeight: FontWeight.w400, color: Colors.teal)),
   );
 }
+
+//Image picker
 
 Future<XFile?> pickImageFormgallery() async {
   final pickedImage =

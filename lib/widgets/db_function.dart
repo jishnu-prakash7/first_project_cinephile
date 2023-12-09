@@ -1,6 +1,7 @@
 import 'package:firstprojectcinephile/models/comment.dart';
 import 'package:firstprojectcinephile/models/movie.dart';
 import 'package:firstprojectcinephile/models/user.dart';
+import 'package:firstprojectcinephile/models/watchlist.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 //Add new movie to database
@@ -30,12 +31,24 @@ addcommentToDb(Comment comment) {
 
 //get movie from database
 movies getMovieAt(int index) {
-   Box moviesBox = Hive.box('movies');
+  Box moviesBox = Hive.box('movies');
   return moviesBox.getAt(index) as movies;
 }
 
 //get user from database
-User getUserAt(int index){
-  Box userBox= Hive.box('user');
+User getUserAt(int index) {
+  Box userBox = Hive.box('user');
   return userBox.getAt(index) as User;
+}
+
+//Add to watchlist
+
+addToWatchlist(Watchlist movie) {
+  Hive.box('watchlist').add(movie);
+}
+
+//delete from watchlist
+
+deleteFromWatchlist(int index) {
+  Hive.box('watchlist').deleteAt(index);
 }

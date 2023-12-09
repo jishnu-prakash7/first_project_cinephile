@@ -2,7 +2,7 @@
 
 import 'package:firstprojectcinephile/main.dart';
 import 'package:firstprojectcinephile/screens/admin/admin_login_screen.dart';
-import 'package:firstprojectcinephile/screens/movie/home_screen.dart';
+import 'package:firstprojectcinephile/screens/movie/home_screen/screen.dart';
 import 'package:firstprojectcinephile/screens/user/user_signup_screen.dart';
 import 'package:firstprojectcinephile/widgets/db_function.dart';
 import 'package:firstprojectcinephile/widgets/login_and_signup_ref.dart';
@@ -31,7 +31,7 @@ class _UserLoginState extends State<UserLogin> {
 
   late Box userBox;
   int? index;
-  RegExp get _emailRegex => RegExp(r'^\S+@\S+$');
+  RegExp get _emailRegex => RegExp(r'^\S+@gmail\.com$');
   RegExp get _passwordRegex => RegExp(r'^(?=.*[0-9].*[0-9].*[0-9])[0-9]+$');
 
   @override
@@ -122,19 +122,19 @@ class _UserLoginState extends State<UserLogin> {
                                 final isvalid =
                                     _formKey.currentState?.validate();
                                 if (isvalid!) {
-                                  final email = emailcontroller.text;
+                                  final email =
+                                      emailcontroller.text.toLowerCase();
                                   final password = passwordcontroller.text;
 
                                   for (var i = 0; i < userBox.length; i++) {
                                     final storedUser = getUserAt(i);
-                                    if (storedUser.email == email &&
+                                    if (storedUser.email.toLowerCase() ==
+                                            email &&
                                         storedUser.password ==
                                             int.parse(password)) {
                                       loggedInUserIndex = i;
                                       checkLogin(context);
-                                      setState(() {
-                                        // isuser = true;
-                                      });
+                                      setState(() {});
                                       flag = 0;
                                       break;
                                     } else {

@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:firstprojectcinephile/main.dart';
-import 'package:firstprojectcinephile/screens/movie/home_screen.dart';
+import 'package:firstprojectcinephile/screens/movie/home_screen/screen.dart';
 import 'package:firstprojectcinephile/screens/user/user_login_screen.dart';
 import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/material.dart';

@@ -1,12 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:firstprojectcinephile/models/movie.dart';
-import 'package:firstprojectcinephile/screens/movie/add_movie_screen.dart';
+import 'package:firstprojectcinephile/screens/movie/movie_add_screen/screen.dart';
 import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-deletedialog(movies movie, BuildContext context) {
+//delete movie alertdialog
+
+deletedialog(movies movie, BuildContext context, int index) {
   return showDialog(
       context: context,
       builder: (context) {
@@ -19,7 +21,7 @@ deletedialog(movies movie, BuildContext context) {
                     fontWeight: FontWeight.bold,
                     color: Colors.black)),
           ),
-          content: Text('Are you sure want to delete?',
+          content: Text('Are you sure want to Delete?',
               style: GoogleFonts.ubuntu(
                   textStyle: const TextStyle(
                       fontSize: 17,
@@ -39,7 +41,7 @@ deletedialog(movies movie, BuildContext context) {
                           color: Colors.black)),
                 )),
             TextButton(
-                onPressed: () {
+                onPressed: () async {
                   deleteMovie(movie, context);
                   Navigator.of(context).pop();
                 },
@@ -58,6 +60,8 @@ void deleteMovie(movies movie, BuildContext context) async {
   await movie.delete();
   showSnackBar(context, 'Movie Deleted Succesfully', Colors.red);
 }
+
+//admin panel addmovie button
 
 adminPanelFloatingActionButton(context) {
   return FloatingActionButton.extended(
@@ -80,11 +84,12 @@ adminPanelFloatingActionButton(context) {
 
 //details text in adminpanel
 
-adminpanelDetailsText(String text,double fontsize,FontWeight fontweight) {
-  return Text( 
-    text,
+adminpanelDetailsText(String text, double fontsize, FontWeight fontweight) {
+  final word = text[0].toUpperCase() + text.substring(1);
+  return Text(
+    word,
     style: GoogleFonts.ubuntu(
-        textStyle:  TextStyle(
+        textStyle: TextStyle(
             color: Colors.black, fontSize: fontsize, fontWeight: fontweight)),
     softWrap: false,
     maxLines: 1,

@@ -31,6 +31,8 @@ Widget addAndEditMovieTextField(
     child: Column(
       children: [
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          textCapitalization: TextCapitalization.sentences,
           maxLines: null,
           keyboardType: keyboardtype,
           validator: (value) {
@@ -79,6 +81,7 @@ class _DateTextformFieldState extends State<DateTextformField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       focusNode: widget.dateFocusNode,
       readOnly: true,
       onTap: () {
@@ -110,6 +113,8 @@ class _DateTextformFieldState extends State<DateTextformField> {
     );
   }
 
+//date picker
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -130,6 +135,7 @@ class _DateTextformFieldState extends State<DateTextformField> {
 
 reviewTextformField(reviewcontroller) {
   return TextFormField(
+    autovalidateMode: AutovalidateMode.onUserInteraction,
     style: const TextStyle(color: Colors.white),
     keyboardType: TextInputType.multiline,
     controller: reviewcontroller,
@@ -195,6 +201,7 @@ class _dropdownFormFieldState extends State<DropdownFormField> {
       child: Column(
         children: [
           DropdownButtonFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) {
                 if (value == null) {
                   return 'Genre is needed';
@@ -237,6 +244,8 @@ class _dropdownFormFieldState extends State<DropdownFormField> {
   }
 }
 
+//submit button
+
 Widget submitButton(void Function() onPressed) {
   return Padding(
     padding: const EdgeInsets.only(top: 10),
@@ -259,6 +268,86 @@ Widget submitButton(void Function() onPressed) {
                       color: Colors.black)),
             )),
       ],
+    ),
+  );
+}
+
+
+
+//add theater textformfield
+
+Widget addTheaterTextField(String hintText, TextEditingController controller,
+    TextInputType keyboardtype) {
+  return Container(
+    width: 170,
+    decoration: const BoxDecoration(),
+    child: Column(
+      children: [
+        TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          maxLines: null,
+          keyboardType: keyboardtype,
+          controller: controller,
+          style: const TextStyle(fontSize: 15, color: Colors.white),
+          decoration: InputDecoration(
+              fillColor: const Color.fromARGB(255, 39, 38, 38),
+              filled: true,
+              contentPadding: const EdgeInsets.only(left: 20),
+              hintText: hintText,
+              hintStyle: const TextStyle(color: Colors.white),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: const BorderSide(color: Colors.grey, width: 2)),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: const BorderSide(
+                  color: Color.fromARGB(255, 247, 247, 247),
+                ),
+              )),
+        ),
+      ],
+    ),
+  );
+}
+
+//comment section textformfield
+
+Widget commentSessionTextfield(void Function() onPressed,
+    TextEditingController commentController, formkey, RegExp nameregx) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Form(
+      key: formkey,
+      child: TextFormField(
+        controller: commentController,
+        style: const TextStyle(color: Colors.white),
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Comment is needed !';
+          } else if (!nameregx.hasMatch(value)) {
+            return 'Contains only Alphabets ';
+          } else {
+            return null;
+          }
+        },
+        decoration: InputDecoration(
+            hintText: 'Add Comment . . .',
+            contentPadding: const EdgeInsets.only(left: 5),
+            hintStyle: GoogleFonts.ubuntu(
+                textStyle: const TextStyle(color: Colors.white)),
+            focusedBorder: const OutlineInputBorder(
+                borderSide:
+                    BorderSide(color: Color.fromARGB(255, 174, 243, 236))),
+            enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.teal)),
+            suffixIcon: IconButton(
+                onPressed: onPressed,
+                icon: const Icon(
+                  Icons.send,
+                  color: Colors.white,
+                ))),
+      ),
     ),
   );
 }

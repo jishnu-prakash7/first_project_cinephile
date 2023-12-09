@@ -30,7 +30,7 @@ class _UserProfileEditState extends State<UserProfileEdit> {
 
   XFile? _selectedImage;
 
-  RegExp get _emailRegex => RegExp(r'^\S+@\S+$');
+  RegExp get _emailRegex => RegExp(r'^\S+@gmail\.com$');
   RegExp get _nameRegex => RegExp(r'^[a-zA-Z ]+$');
   RegExp get _passwordRegex => RegExp(r'^(?=.*[0-9].*[0-9].*[0-9])[0-9]+$');
   late Box userBox;
@@ -70,68 +70,71 @@ class _UserProfileEditState extends State<UserProfileEdit> {
         body: SingleChildScrollView(
           child: Form(
             key: _formKey,
-            child: Column(
-              children: [
-                Center(
-                  child: CircleAvatar(
-                    backgroundColor: Colors.black,
-                    maxRadius: 60,
-                    child: GestureDetector(
-                        onTap: () async {
-                          XFile? pickimage = await pickImageFormgallery();
-                          setState(() {
-                            _selectedImage = pickimage;
-                          });
-                        },
-                        child: _selectedImage != null
-                            ? ClipOval(
-                                child: Image.file(
-                                  File(_selectedImage!.path),
-                                  fit: BoxFit.cover,
-                                  width: 140,
-                                  height: 140,
-                                ),
-                              )
-                            : const Icon(
-                                Icons.person_add,
-                                color: Colors.white,
-                              )),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Center(
+                    child: CircleAvatar(
+                      backgroundColor: Colors.black,
+                      maxRadius: 60,
+                      child: GestureDetector(
+                          onTap: () async {
+                            XFile? pickimage = await pickImageFormgallery();
+                            setState(() {
+                              _selectedImage = pickimage;
+                            });
+                          },
+                          child: _selectedImage != null
+                              ? ClipOval(
+                                  child: Image.file(
+                                    File(_selectedImage!.path),
+                                    fit: BoxFit.cover,
+                                    width: 140,
+                                    height: 140,
+                                  ),
+                                )
+                              : const Icon(
+                                  Icons.person_add,
+                                  color: Colors.white,
+                                )),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    _selectedImage != null ? 'Edit Image' : 'Add Image',
-                    style: GoogleFonts.ubuntu(
-                        textStyle:
-                            const TextStyle(color: Colors.white, fontSize: 16)),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      _selectedImage != null ? 'Edit Image' : 'Add Image',
+                      style: GoogleFonts.ubuntu(
+                          textStyle:
+                              const TextStyle(color: Colors.white, fontSize: 16)),
+                    ),
                   ),
-                ),
-                textformfieldUserEdit('Name', namecontroller, _nameRegex,
-                    'Name is required', 'Name only contain alphabets'),
-                textformfieldUserEdit('Email', emailcontroller, _emailRegex,
-                    'Email is required', 'Enter a valid Email !'),
-                textformfieldUserEdit(
-                    'Password',
-                    passwordcontroller,
-                    _passwordRegex,
-                    'Password is Needed !',
-                    'Password contain atleast 3 charecters'),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 30, top: 50),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        fixedSize: const Size(300, 50)),
-                    onPressed: () {
-                      validate();
-                    },
-                    child: Text('Save',
-                        style: GoogleFonts.ubuntu(
-                            textStyle: const TextStyle(fontSize: 20),
-                            color: Colors.black)),
-                  ),
-                )
-              ],
+                  textformfieldUserEdit('Name', namecontroller, _nameRegex,
+                      'Name is required', 'Name only contain alphabets'),
+                  textformfieldUserEdit('Email', emailcontroller, _emailRegex,
+                      'Email is required', 'Enter a valid Email !'),
+                  textformfieldUserEdit(
+                      'Password',
+                      passwordcontroller,
+                      _passwordRegex,
+                      'Password is Needed !',
+                      'Password contain atleast 3 charecters'),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 30, top: 50),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          fixedSize: const Size(300, 50)),
+                      onPressed: () {
+                        validate();
+                      },
+                      child: Text('Save',
+                          style: GoogleFonts.ubuntu(
+                              textStyle: const TextStyle(fontSize: 20),
+                              color: Colors.black)),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

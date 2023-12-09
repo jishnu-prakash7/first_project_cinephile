@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:firstprojectcinephile/models/user.dart';
-import 'package:firstprojectcinephile/screens/movie/home_screen.dart';
+import 'package:firstprojectcinephile/screens/movie/home_screen/screen.dart';
 import 'package:firstprojectcinephile/screens/user/user_profile_edit_screen.dart';
 import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:firstprojectcinephile/widgets/user_profile_ref.dart';
@@ -66,60 +66,63 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       body: SingleChildScrollView(
         child: ValueListenableBuilder(
           valueListenable: userBox.listenable(),
-          builder: (context, box, child) => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
-                child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  backgroundImage: loggedInUser?.image != null
-                      ? FileImage(File(loggedInUser!.image!))
-                      : const AssetImage('assets/images/man.png')
-                          as ImageProvider,
-                  maxRadius: 60,
+          builder: (context, box, child) => Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    backgroundImage: loggedInUser?.image != null
+                        ? FileImage(File(loggedInUser!.image!))
+                        : const AssetImage('assets/images/man.png')
+                            as ImageProvider,
+                    maxRadius: 60,
+                  ),
                 ),
-              ),
-              listTile(loggedInUser?.userName ?? 'value'),
-              const Divider(
-                color: Color.fromARGB(255, 94, 93, 93),
-                thickness: .5,
-              ),
-              listTile(loggedInUser?.email ?? 'value'),
-              const Divider(
-                color: Color.fromARGB(255, 94, 93, 93),
-                thickness: .5,
-              ),
-              listTile('Edit Profile',
-                  iconbutton: IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) {
-                          return UserProfileEdit(
-                            userdetails: loggedInUser,
-                            index: index,
-                          );
-                        }));
-                      },
-                      icon: const Icon(
-                        Icons.edit_document,
-                        color: Colors.teal,
-                      ))),
-              const Divider(
-                color: Color.fromARGB(255, 94, 93, 93),
-                thickness: .5,
-              ),
-              listTile('Logout',
-                  textcolor: Colors.red,
-                  iconbutton: IconButton(
-                      onPressed: () {
-                        logoutAlertDialog(context, signout);
-                      },
-                      icon: const Icon(
-                        Icons.logout,
-                        color: Colors.red,
-                      )))
-            ],
+                listTile(loggedInUser?.userName ?? 'value'),
+                const Divider(
+                  color: Color.fromARGB(255, 94, 93, 93),
+                  thickness: .5,
+                ),
+                listTile(loggedInUser?.email ?? 'value'),
+                const Divider(
+                  color: Color.fromARGB(255, 94, 93, 93),
+                  thickness: .5,
+                ),
+                listTile('Edit Profile',
+                    iconbutton: IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(builder: (context) {
+                            return UserProfileEdit(
+                              userdetails: loggedInUser,
+                              index: index,
+                            );
+                          }));
+                        },
+                        icon: const Icon(
+                          Icons.edit_document,
+                          color: Colors.teal,
+                        ))),
+                const Divider(
+                  color: Color.fromARGB(255, 94, 93, 93),
+                  thickness: .5,
+                ),
+                listTile('Logout',
+                    textcolor: Colors.red,
+                    iconbutton: IconButton(
+                        onPressed: () {
+                          logoutAlertDialog(context, signout);
+                        },
+                        icon: const Icon(
+                          Icons.logout,
+                          color: Colors.red,
+                        )))
+              ],
+            ),
           ),
         ),
       ),

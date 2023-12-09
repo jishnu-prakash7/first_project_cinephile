@@ -17,7 +17,7 @@ class CommentAdapter extends TypeAdapter<Comment> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Comment(
-      movieIndex: fields[0] as int,
+      movieIndex: fields[0] as String,
       userIndex: fields[1] as int,
       comment: fields[2] as String,
       date: fields[3] as DateTime,

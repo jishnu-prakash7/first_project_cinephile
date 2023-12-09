@@ -3,7 +3,10 @@
 import 'dart:io';
 
 import 'package:firstprojectcinephile/models/user.dart';
-import 'package:firstprojectcinephile/screens/movie/watchlist_screen.dart';
+import 'package:firstprojectcinephile/screens/movie/about_us_screen.dart';
+import 'package:firstprojectcinephile/screens/movie/movie_watchlist_screen/screen.dart';
+import 'package:firstprojectcinephile/screens/movie/privacy_policy_screen.dart';
+import 'package:firstprojectcinephile/screens/movie/terms_and_conditions_screen.dart';
 import 'package:firstprojectcinephile/screens/user/user_profile_screen.dart';
 import 'package:firstprojectcinephile/widgets/db_function.dart';
 import 'package:firstprojectcinephile/widgets/drawer_ref.dart';
@@ -90,7 +93,7 @@ class _MydrawerState extends State<Mydrawer> {
                 ),
                 DrawerListTile(
                     icon: Icons.bookmark,
-                    text: 'W A T C H L I S T',
+                    text: 'WATCHLIST',
                     onTap: () {
                       return Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
@@ -98,15 +101,8 @@ class _MydrawerState extends State<Mydrawer> {
                       }));
                     }),
                 DrawerListTile(
-                  icon: Icons.home,
-                  text: 'H O M E',
-                  onTap: () {
-                    return Navigator.of(context).pop();
-                  },
-                ),
-                DrawerListTile(
                     icon: Icons.person,
-                    text: 'P R O F I L E',
+                    text: 'PROFILE',
                     onTap: () {
                       return Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
@@ -114,19 +110,47 @@ class _MydrawerState extends State<Mydrawer> {
                       }));
                     }),
                 DrawerListTile(
+                  icon: Icons.privacy_tip,
+                  text: 'PRIVACY POLICY',
+                  onTap: () {
+                    return Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return const privacyPolicyScreen();
+                    }));
+                  },
+                ),
+                DrawerListTile(
+                  icon: Icons.edit_document,
+                  text: 'TERMS & CONDITIONS',
+                  onTap: () {
+                    return Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return const TermsAndConditionsScreen();
+                    }));
+                  },
+                ),
+                DrawerListTile(
                     icon: FontAwesomeIcons.copyright,
-                    text: 'A B O U T',
+                    text: 'ABOUT US',
                     onTap: () {
-                      return Navigator.of(context).pop();
+                      return Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return const aboutUsScreen();
+                      }));
                     }),
                 DrawerListTile(
                     textcolor: Colors.red,
                     iconColor: Colors.red,
                     icon: Icons.logout,
-                    text: 'L O G O U T',
+                    text: 'LOGOUT',
                     onTap: () {
                       logoutAlertDialog(context, signout);
                     }),
+                const Center(
+                    child: Text(
+                  'Version-2.0.1',
+                  style: TextStyle(color: Color.fromARGB(255, 193, 191, 191)),
+                ))
               ],
             );
           }),

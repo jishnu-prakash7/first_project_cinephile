@@ -24,7 +24,7 @@ class _SignupState extends State<Signup> {
 
   final passwordcontroller = TextEditingController();
 
-  RegExp get _emailRegex => RegExp(r'^\S+@\S+$');
+  RegExp get _emailRegex => RegExp(r'^\S+@gmail\.com$');
   RegExp get _nameRegex => RegExp(r'^[a-zA-Z][a-zA-Z ]*$');
   RegExp get _passwordRegex => RegExp(r'^(?=.*[0-9].*[0-9].*[0-9])[0-9]+$');
 

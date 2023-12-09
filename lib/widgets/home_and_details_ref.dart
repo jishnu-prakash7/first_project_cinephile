@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+//Details page Rating and genre
+
 Widget RatingAndGenereSection(String rating, IconData icon, Color iconcolor) {
   return Row(
     children: [
@@ -26,6 +28,8 @@ Widget RatingAndGenereSection(String rating, IconData icon, Color iconcolor) {
   );
 }
 
+//Details screen divider
+
 divider() {
   return const Padding(
     padding: EdgeInsets.only(left: 5, right: 5),
@@ -35,6 +39,8 @@ divider() {
     ),
   );
 }
+
+//runtime min to hours
 
 String runtime(int time) {
   if (time <= 0) {
@@ -78,18 +84,19 @@ detailsScectionText(String text, double size, Color textcolor) {
 //Comment session text
 
 commentSessionText(username, Color color, double fontsize) {
+  final word = username[0].toUpperCase() + username.substring(1);
   return Text(
-    username,
+    word,
     style: GoogleFonts.ubuntu(
         textStyle: TextStyle(color: color, fontSize: fontsize)),
   );
 }
 
-//elevated button home screen
+//categories button home screen
 
-Widget catagoriesButton(String title,void Function()onPressed) {
+Widget catagoriesButton(String title, void Function() onPressed) {
   return GestureDetector(
-    onTap:onPressed,
+    onTap: onPressed,
     child: Padding(
         padding: const EdgeInsets.only(left: 5, right: 5),
         child: Container(
@@ -105,5 +112,36 @@ Widget catagoriesButton(String title,void Function()onPressed) {
                 textStyle: const TextStyle(color: Colors.white)),
           )),
         )),
+  );
+}
+
+//searchbar
+
+Widget searchBar(
+    Function(String value) onChanged, TextEditingController searchController) {
+  return TextFormField(
+    onChanged: onChanged,
+    controller: searchController,
+    style: const TextStyle(color: Colors.white),
+    decoration: InputDecoration(
+        focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey),
+            borderRadius: BorderRadius.circular(30)),
+        contentPadding: const EdgeInsets.all(0),
+        enabledBorder: OutlineInputBorder(
+            borderSide:
+                const BorderSide(color: Color.fromARGB(255, 41, 41, 41)),
+            borderRadius: BorderRadius.circular(30)),
+        fillColor: const Color.fromARGB(255, 41, 41, 41),
+        filled: true,
+        prefixIcon: const Icon(
+          Icons.search,
+          color: Color.fromARGB(255, 209, 207, 207),
+        ),
+        hintText: 'Search Movies',
+        hintStyle: GoogleFonts.ubuntu(
+            textStyle:
+                const TextStyle(color: Color.fromARGB(255, 223, 222, 222))),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),
   );
 }

@@ -2,7 +2,7 @@
 
 import 'dart:io';
 
-import 'package:firstprojectcinephile/screens/movie/edit_movie_screen.dart';
+import 'package:firstprojectcinephile/screens/movie/movie_edit_screen/screen.dart';
 import 'package:firstprojectcinephile/widgets/admin_module_ref.dart';
 import 'package:firstprojectcinephile/widgets/db_function.dart';
 import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
@@ -151,7 +151,7 @@ class _AdminModuleState extends State<AdminModule> {
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          deletedialog(movie, context);
+                                          deletedialog(movie, context,index);
                                         },
                                         child: const Icon(
                                           Icons.delete,

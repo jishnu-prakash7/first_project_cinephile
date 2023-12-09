@@ -32,7 +32,7 @@ class AdminLogin extends StatelessWidget {
             Container(
                 margin: const EdgeInsets.only(left: 60, right: 60),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(20),
                   color: Colors.white,
                 ),
                 child: Padding(
@@ -87,14 +87,18 @@ class AdminLogin extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(20))),
                             onPressed: () {
                               final isvalid = _formKey.currentState?.validate();
-                              final name = namecontroller.text;
+                              final name = namecontroller.text.toLowerCase();
                               final password = passwordcontroller.text;
                               if (isvalid!) {
-                                if (name == 'jishnu' && password == '123') {
+                                if (name == 'jishnu'.toLowerCase() &&
+                                    password == '123') {
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(builder: (context) {
                                     return const AdminModule();
                                   }), (route) => false);
+                                } else {
+                                  return showSnackBar(context,
+                                      'Name or Password incorrect', Colors.red);
                                 }
                               }
                             },

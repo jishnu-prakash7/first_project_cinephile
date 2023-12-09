@@ -6,7 +6,7 @@ import 'package:hive/hive.dart';
 part 'movie.g.dart';
 
 @HiveType(typeId: 1)
-class movies extends HiveObject{
+class movies extends HiveObject {
   @HiveField(0)
   final String title;
   @HiveField(1)
@@ -25,9 +25,14 @@ class movies extends HiveObject{
   final String review;
   @HiveField(8)
   final String imageUrl;
+  @HiveField(9)
+  final List<String>? theaters;
+  @HiveField(10)
+  final String moviekey;
 
   movies(
-      {required this.title,
+      {this.theaters,
+      required this.title,
       required this.releaseyear,
       required this.movielanguage,
       required this.time,
@@ -35,5 +40,6 @@ class movies extends HiveObject{
       required this.movierating,
       required this.moviegenre,
       required this.review,
-      required this.imageUrl});
+      required this.imageUrl,
+      required this.moviekey});
 }
