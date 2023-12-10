@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'package:firstprojectcinephile/screens/movie/movie_details_screen/screen.dart';
 import 'package:firstprojectcinephile/screens/movie/drawer.dart';
 import 'package:firstprojectcinephile/screens/movie/function.dart';
 import 'package:firstprojectcinephile/screens/movie/home_screen/widgets.dart';
@@ -8,7 +6,6 @@ import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -142,57 +139,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     movieSection(context, movie, index)
-                                    // GestureDetector(
-                                    //   onTap: () {
-                                    //     Navigator.of(context).push( 
-                                    //         MaterialPageRoute(
-                                    //             builder: (context) {
-                                    //       return DetailsScreen(
-                                    //         movie: movie,
-                                    //         movieindex: index,
-                                    //       );
-                                    //     }));
-                                    //   },
-                                    //   child: SizedBox(
-                                    //     height: 200,
-                                    //     width:
-                                    //         MediaQuery.of(context).size.width,
-                                    //     child: ClipRRect(
-                                    //         borderRadius:
-                                    //             BorderRadius.circular(10),
-                                    //         child: Image.file(
-                                    //           File(movie.imageUrl),
-                                    //           fit: BoxFit.cover,
-                                    //         )),
-                                    //   ),
-                                    // ),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.only(top: 10),
-                                    //   child: GestureDetector(
-                                    //     onTap: () {
-                                    //       Navigator.of(context).push(
-                                    //           MaterialPageRoute(
-                                    //               builder: (context) {
-                                    //         return DetailsScreen(
-                                    //           movieindex: index,
-                                    //           movie: movie,
-                                    //         );
-                                    //       }));
-                                    //     },
-                                    //     child: Row(
-                                    //       children: [
-                                    //         detailsScectionText(
-                                    //             '${movie.title} (${DateFormat('yyyy').format(movie.releaseyear)})',
-                                    //             17,
-                                    //             Colors.white)
-                                    //       ],
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    // RatingAndGenereSection(
-                                    //     movie.movierating.toString(),
-                                    //     Icons.star,
-                                    //     Colors.amber)
                                   ],
                                 ),
                               );

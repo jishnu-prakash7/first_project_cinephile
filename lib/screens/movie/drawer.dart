@@ -53,28 +53,27 @@ class _MydrawerState extends State<Mydrawer> {
       child: ValueListenableBuilder(
           valueListenable: userBox.listenable(),
           builder: (context, box, child) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                    padding:
-                        const EdgeInsets.only(left: 10, top: 40, bottom: 30),
-                    child: RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: 'Hello',
-                          style: GoogleFonts.ubuntu(
-                              textStyle: const TextStyle(
-                                  fontSize: 25, color: Colors.teal))),
-                      TextSpan(
-                          text: ',${loggedInUser?.userName}',
-                          style: GoogleFonts.ubuntu(
-                              textStyle: const TextStyle(
-                                  fontSize: 25, color: Colors.white)))
-                    ]))),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 40, left: 10),
-                  child: Container(
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, top: 40, bottom: 30),
+                      child: RichText(
+                          text: TextSpan(children: [
+                        TextSpan(
+                            text: 'Hello',
+                            style: GoogleFonts.ubuntu(
+                                textStyle: const TextStyle(
+                                    fontSize: 25, color: Colors.teal))),
+                        TextSpan(
+                            text: ',${loggedInUser?.userName}',
+                            style: GoogleFonts.ubuntu(
+                                textStyle: const TextStyle(
+                                    fontSize: 25, color: Colors.white)))
+                      ]))),
+                  Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
@@ -90,68 +89,68 @@ class _MydrawerState extends State<Mydrawer> {
                       maxRadius: 50,
                     ),
                   ),
-                ),
-                DrawerListTile(
-                    icon: Icons.bookmark,
-                    text: 'WATCHLIST',
+                  DrawerListTile(
+                      icon: Icons.bookmark,
+                      text: 'WATCHLIST',
+                      onTap: () {
+                        return Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return const WatchlistScreen();
+                        }));
+                      }),
+                  DrawerListTile(
+                      icon: Icons.person,
+                      text: 'PROFILE',
+                      onTap: () {
+                        return Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return const UserProfileScreen();
+                        }));
+                      }),
+                  DrawerListTile(
+                    icon: Icons.privacy_tip,
+                    text: 'PRIVACY POLICY',
                     onTap: () {
                       return Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return const WatchlistScreen();
+                        return const privacyPolicyScreen();
                       }));
-                    }),
-                DrawerListTile(
-                    icon: Icons.person,
-                    text: 'PROFILE',
+                    },
+                  ),
+                  DrawerListTile(
+                    icon: Icons.edit_document,
+                    text: 'TERMS & CONDITIONS',
                     onTap: () {
                       return Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return const UserProfileScreen();
+                        return const TermsAndConditionsScreen();
                       }));
-                    }),
-                DrawerListTile(
-                  icon: Icons.privacy_tip,
-                  text: 'PRIVACY POLICY',
-                  onTap: () {
-                    return Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return const privacyPolicyScreen();
-                    }));
-                  },
-                ),
-                DrawerListTile(
-                  icon: Icons.edit_document,
-                  text: 'TERMS & CONDITIONS',
-                  onTap: () {
-                    return Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return const TermsAndConditionsScreen();
-                    }));
-                  },
-                ),
-                DrawerListTile(
-                    icon: FontAwesomeIcons.copyright,
-                    text: 'ABOUT US',
-                    onTap: () {
-                      return Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return const aboutUsScreen();
-                      }));
-                    }),
-                DrawerListTile(
-                    textcolor: Colors.red,
-                    iconColor: Colors.red,
-                    icon: Icons.logout,
-                    text: 'LOGOUT',
-                    onTap: () {
-                      logoutAlertDialog(context, signout);
-                    }),
-                const Center(
-                    child: Text(
-                  'Version-2.0.1',
-                  style: TextStyle(color: Color.fromARGB(255, 193, 191, 191)),
-                ))
-              ],
+                    },
+                  ),
+                  DrawerListTile(
+                      icon: FontAwesomeIcons.copyright,
+                      text: 'ABOUT US',
+                      onTap: () {
+                        return Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return const aboutUsScreen();
+                        }));
+                      }),
+                  DrawerListTile(
+                      textcolor: Colors.red,
+                      iconColor: Colors.red,
+                      icon: Icons.logout,
+                      text: 'LOGOUT',
+                      onTap: () {
+                        logoutAlertDialog(context, signout);
+                      }),
+                  const Center(
+                      child: Text(
+                    'Version-2.0.1',
+                    style: TextStyle(color: Color.fromARGB(255, 193, 191, 191)),
+                  ))
+                ],
+              ),
             );
           }),
     );
