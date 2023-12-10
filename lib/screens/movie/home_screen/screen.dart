@@ -63,7 +63,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.only(left: 5, bottom: 10),
                   child: Row(
                     children: [
-                      // filteringButtonSection(() { })
                       catagoriesButton('All Movies', () {
                         setState(() {
                           selectedCatagory = '';
