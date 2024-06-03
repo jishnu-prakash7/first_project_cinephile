@@ -1,3 +1,5 @@
+
+
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:firstprojectcinephile/main.dart';
@@ -216,7 +218,7 @@ class _UserLoginState extends State<UserLogin> {
 
     await sharedprefs.setInt('loggedInUserIndexKey', loggedInUserIndex!);
 
-    Navigator.of(ctx).pushReplacement(MaterialPageRoute(builder: (context) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
       return const HomeScreen();
     }));
   }

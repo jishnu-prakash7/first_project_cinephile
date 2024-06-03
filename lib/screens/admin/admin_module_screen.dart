@@ -7,6 +7,7 @@ import 'package:firstprojectcinephile/widgets/admin_module_ref.dart';
 import 'package:firstprojectcinephile/widgets/db_function.dart';
 import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 
@@ -50,6 +51,18 @@ class _AdminModuleState extends State<AdminModule> {
       body: ValueListenableBuilder(
           valueListenable: moviesBox.listenable(),
           builder: (context, box, child) {
+            if (moviesBox.isEmpty) {
+              return Center(
+                child: Text(
+                  'No movies available',
+                  style: GoogleFonts.ubuntu(
+                      textStyle: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.teal)),
+                ),
+              );
+            }
             return ListView.builder(
                 itemCount: moviesBox.length,
                 itemBuilder: (context, index) {
@@ -151,7 +164,7 @@ class _AdminModuleState extends State<AdminModule> {
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          deletedialog(movie, context,index);
+                                          deletedialog(movie, context, index);
                                         },
                                         child: const Icon(
                                           Icons.delete,

@@ -6,26 +6,25 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 // Maintitle of App
 
 Widget maintitle() {
   return RichText(
       text: TextSpan(children: [
     TextSpan(
-        text: 'Cine',
+        text: 'Flick',
         style: GoogleFonts.pacifico(
             textStyle:
                 const TextStyle(fontSize: 35, fontWeight: FontWeight.bold))),
     TextSpan(
-        text: 'p',
+        text: 'r',
         style: GoogleFonts.pacifico(
             textStyle: const TextStyle(
                 color: Colors.teal,
                 fontSize: 35,
                 fontWeight: FontWeight.bold))),
     TextSpan(
-        text: 'hile',
+        text: 'ank',
         style: GoogleFonts.pacifico(
             textStyle:
                 const TextStyle(fontSize: 35, fontWeight: FontWeight.bold)))

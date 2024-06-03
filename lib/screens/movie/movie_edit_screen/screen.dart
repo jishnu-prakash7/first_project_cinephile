@@ -4,7 +4,6 @@ import 'package:firstprojectcinephile/screens/movie/movie_edit_screen/widgets.da
 import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class EditAndDeleteScreen extends StatefulWidget {
@@ -28,7 +27,6 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
   late TextEditingController theaterController;
   List<String>? theaters;
 
-  XFile? _selectedImage;
   double movieRating = 0.0;
   late TextEditingController dateController;
   final dateFocusNode = FocusNode();
@@ -49,7 +47,6 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
         TextEditingController(text: widget.movie.moviedirector);
     genreController = TextEditingController(text: widget.movie.moviegenre);
     reviewcontroller = TextEditingController(text: widget.movie.review);
-    _selectedImage = XFile(widget.movie.imageUrl);
     dateController = TextEditingController(
         text: DateFormat('dd-MM-yyyy').format(widget.movie.releaseyear));
     super.initState();
@@ -65,16 +62,16 @@ class _EditAndDeleteScreenState extends State<EditAndDeleteScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.black,
           leading: IconButton(
               onPressed: () {
-                Navigator.of(context)
-                    .pushReplacement(MaterialPageRoute(builder: (context) {
-                  return const AdminModule();
-                }));
+                Navigator.of(context).pop();
               },
-              icon: const Icon(Icons.arrow_back_ios)),
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white,
+              )),
+          elevation: 0,
+          backgroundColor: Colors.black,
           title: appbarHeading('Edit Movie', 25)),
       body: SingleChildScrollView(
         child: Form(

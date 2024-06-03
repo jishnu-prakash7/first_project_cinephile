@@ -39,6 +39,14 @@ class _addMovieScreenState extends State<addMovieScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+          leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white,
+              )),
           elevation: 0,
           backgroundColor: Colors.black,
           title: appbarHeading('Add Movie', 25)),

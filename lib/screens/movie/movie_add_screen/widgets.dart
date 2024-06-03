@@ -183,7 +183,6 @@ class _addmovieSectionState extends State<addmovieSection> {
         addAndEditMovieTitile('Add theater'),
         addTheaterTextField(
             'Enter Theaters', widget.theaterController, TextInputType.name),
-            if(isValidRuntime())
         submitButton(() {
           List<String> theaters = widget.theaterController.text
               .split(',')
@@ -208,9 +207,4 @@ class _addmovieSectionState extends State<addmovieSection> {
       ],
     );
   }
-  bool isValidRuntime() {
-  // Check if the runtime is greater than zero
-  final int runtime = int.tryParse(widget.timeController.text) ?? 0;
-  return runtime > 0;
-}
 }

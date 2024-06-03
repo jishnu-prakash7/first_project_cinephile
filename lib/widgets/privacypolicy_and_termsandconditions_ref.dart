@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 Widget privacyandtermsHeading(String heading) {
   return Padding(
-    padding: EdgeInsets.only(bottom: 6),
+    padding: const EdgeInsets.only(bottom: 6),
     child: Text(
       heading,
       style: GoogleFonts.ubuntu(
@@ -17,11 +17,11 @@ Widget privacyandtermsHeading(String heading) {
 
 Widget privacyandtermsContent(String content) {
   return Padding(
-    padding: EdgeInsets.only(bottom: 6),
+    padding: const EdgeInsets.only(bottom: 6),
     child: Text(
       content,
       style: GoogleFonts.ubuntu(
-          textStyle: TextStyle(color: Color.fromARGB(255, 244, 243, 243))),
+          textStyle:  const TextStyle(color: Color.fromARGB(255, 244, 243, 243))),
     ),
   );
 }

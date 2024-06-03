@@ -13,7 +13,7 @@ const KEY = "UserLoggedIn";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final dir = await path.getApplicationDocumentsDirectory();
+  final dir = await path.getApplicationDocumentsDirectory(); 
   Hive.init(dir.path);
   Hive.initFlutter('hive_db');
   Hive.registerAdapter(moviesAdapter());
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'CinephileApp',
+      title: 'flickrank',
       home: Splash(),
       debugShowCheckedModeBanner: false,
     );

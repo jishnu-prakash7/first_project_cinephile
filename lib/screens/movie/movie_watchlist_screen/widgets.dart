@@ -1,5 +1,7 @@
 
 
+// ignore_for_file: camel_case_types
+
 import 'dart:io';
 
 import 'package:firstprojectcinephile/models/movie.dart';

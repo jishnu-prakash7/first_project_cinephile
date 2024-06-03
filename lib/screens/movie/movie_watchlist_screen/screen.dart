@@ -6,6 +6,7 @@ import 'package:firstprojectcinephile/screens/movie/home_screen/screen.dart';
 import 'package:firstprojectcinephile/screens/movie/movie_watchlist_screen/widgets.dart';
 import 'package:firstprojectcinephile/widgets/main_refactoring.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class WatchlistScreen extends StatefulWidget {
@@ -67,39 +68,53 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
               backgroundColor: Colors.black,
             )),
         body: ValueListenableBuilder(
-          valueListenable: watchlistBox.listenable(),
-          builder: (context, value, child) => ListView.builder(
-              itemCount: userWatchlist.length,
-              itemBuilder: (context, index) {
-                final movielist = userWatchlist[index] as Watchlist;
-                final movie = moviesBox.getAt(movielist.movieindex) as movies;
-                return GestureDetector(
-                  onTap: () async {
-                    String? refresh = await Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return DetailsScreen(movieindex: index, movie: movie);
-                    }));
-
-                    if (refresh == 'refresh') {
-                      updateWatchlist();
-                    }
-                  },
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 15, right: 15, top: 15),
-                    child: WatchlistSection(
-                      movie: movie,
-                      index: index,
-                      onWatchlistUpdated: (updatedWatchlist) {
-                        setState(() {
-                          userWatchlist = updatedWatchlist;
-                        });
-                      },
-                    ),
+            valueListenable: watchlistBox.listenable(),
+            builder: (context, value, child) {
+              if (watchlistBox.isEmpty) {
+                return Center(
+                  child: Text(
+                    'No movies available',
+                    style: GoogleFonts.ubuntu(
+                        textStyle: const TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.teal)),
                   ),
                 );
-              }),
-        ),
+              }
+              return ListView.builder(
+                  itemCount: userWatchlist.length,
+                  itemBuilder: (context, index) {
+                    final movielist = userWatchlist[index] as Watchlist;
+                    final movie =
+                        moviesBox.getAt(movielist.movieindex) as movies;
+                    return GestureDetector(
+                      onTap: () async {
+                        String? refresh = await Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return DetailsScreen(movieindex: index, movie: movie);
+                        }));
+
+                        if (refresh == 'refresh') {
+                          updateWatchlist();
+                        }
+                      },
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(left: 15, right: 15, top: 15),
+                        child: WatchlistSection(
+                          movie: movie,
+                          index: index,
+                          onWatchlistUpdated: (updatedWatchlist) {
+                            setState(() {
+                              userWatchlist = updatedWatchlist;
+                            });
+                          },
+                        ),
+                      ),
+                    );
+                  });
+            }),
       ),
     );
   }
